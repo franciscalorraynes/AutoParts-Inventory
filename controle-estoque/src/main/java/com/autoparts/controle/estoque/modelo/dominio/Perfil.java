@@ -6,7 +6,7 @@ package com.autoparts.controle.estoque.modelo.dominio;
 
 /**
  *
- * @author fllsa
+ * @author flls a
  */
 public enum Perfil {
     ADM,
