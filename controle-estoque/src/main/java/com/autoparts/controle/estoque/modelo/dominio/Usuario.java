@@ -12,8 +12,8 @@ import java.util.Objects;
 public class Usuario {
    private Long id;
     private String nome;
-    private String senha;
     private String nomeUsuario;
+    private String senha;
     private String telefone;
     private Perfil perfil;
     private boolean estado;
@@ -24,11 +24,11 @@ public class Usuario {
         this.estado = true;
     }
 
-    public Usuario(Long id, String nome, String senha, String nomeUsuario, String telefone, Perfil perfil, LocalDateTime dataHoraCriacao, LocalDateTime ultimoLogin) {
+    public Usuario(Long id, String nome, String nomeUsuario,String senha,  String telefone, Perfil perfil, LocalDateTime dataHoraCriacao, LocalDateTime ultimoLogin) {
         this.id = id;
         this.nome = nome;
-        this.senha = senha;
         this.nomeUsuario = nomeUsuario;
+        this.senha = senha;
         this.telefone = telefone;
         this.perfil = perfil;
         this.dataHoraCriacao = dataHoraCriacao;
@@ -52,21 +52,19 @@ public class Usuario {
     public void setNome(String nome) {
         this.nome = nome;
     }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
     public String getNomeUsuario() {
         return nomeUsuario;
     }
 
     public void setNomeUsuario(String nomeUsuario) {
         this.nomeUsuario = nomeUsuario;
+    }
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public String getTelefone() {
