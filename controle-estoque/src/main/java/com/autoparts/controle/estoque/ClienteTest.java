@@ -7,6 +7,7 @@ package com.autoparts.controle.estoque;
 import com.autoparts.controle.estoque.modelo.dao.ClienteDao;
 import com.autoparts.controle.estoque.modelo.dominio.Cliente;
 
+
 /**
  *
  * @author Lorrayne
@@ -14,9 +15,14 @@ import com.autoparts.controle.estoque.modelo.dominio.Cliente;
 public class ClienteTest {
     public static void main(String[] args) {
     
-        ClienteDao clienteDao = new ClienteDao();
-    
-    String nomeParaBuscar = "Maria Silva"; // Substitua pelo ID do cliente que deseja buscar
+        // Cliente cliente = new Cliente(1L, "Maria Bonita", "11235648", "Rua das margaridas");
+
+        
+         ClienteDao clienteDao = new ClienteDao();
+        // String menssagem = clienteDao.salvar(cliente);
+        // System.out.println(menssagem);
+
+        String nomeParaBuscar = "Maria Bonita"; // Substitua pelo ID do cliente que deseja buscar
         Cliente cliente = clienteDao.buscarClientePeloNome(nomeParaBuscar);
     
     if (cliente != null) {

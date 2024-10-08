@@ -18,7 +18,7 @@ public class PecaTest {
       public static void main(String[] args) {
         // Criação de um fornecedor para associar à peça
         Fornecedor fornecedor = new Fornecedor();
-        fornecedor.setId(4L); // Defina um ID válido para o fornecedor
+        fornecedor.setId(1L); // Defina um ID válido para o fornecedor
 
         // Criar uma nova peça
         Pecas peca = new Pecas(null, "Macaco", "Auxilia na remoção de pneu", BigDecimal.valueOf(10), BigDecimal.valueOf(59.90), null, fornecedor);

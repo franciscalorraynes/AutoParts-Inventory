@@ -131,4 +131,39 @@ public class PecasDao {
         }
         return null;
     }
+    public String deletarPeloId(Long id) {
+        // Verifica se a peca com o ID fornecido existe
+        Pecas pecas = buscarPecasPeloId(id);
+        if (pecas == null) {
+            return "Erro: Peca não encontrado no banco de dados.";
+        }
+
+        String sql = "delete from peca WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
+            preparedStatement.setLong(1, id); // Define o ID da peca a ser deletado
+            int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
+            return resultado == 1 ? "Peca deletado com sucesso!" : "Erro ao deletar o peca.";
+        } catch (SQLException e) {
+            return String.format("Erro: %s", e.getMessage());
+        }
+    }
+
+    public String deletarPorNome(String nome) {
+        // ve se o nome do cliente existe
+        Pecas pecastemPecas = buscarPecasPeloNome(nome);
+        if (pecastemPecas == null) {
+            return "Erro: Cliente não encontrado no banco de dados.";
+        }
+
+        String sql = "delete from cliente WHERE nome = ?";
+        try {
+            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
+            preparedStatement.setString(1, nome); // Define o nome do cliente a ser deletado
+            int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
+            return resultado > 0 ? "Cliente(s) deletado(s) com sucesso!" : "Erro ao deletar o cliente.";
+        } catch (SQLException e) {
+            return String.format("Erro: %s", e.getMessage());
+        }
+    }
 }
