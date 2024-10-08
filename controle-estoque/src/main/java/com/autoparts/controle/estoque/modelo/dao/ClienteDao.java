@@ -15,7 +15,7 @@ import java.util.List;
 
 /**
  *
- * @author Lorrayne
+ * @author Samira
  */
 public class ClienteDao {
 
@@ -26,7 +26,7 @@ public class ClienteDao {
     }
 
     public String salvar(Cliente cliente) {
-        //quando for 0 o novo cadastro =, !0 editar
+        // quando for 0 o novo cadastro =, !0 editar
 
         return (cliente.getId() == null || cliente.getId() == 0L) ? adicionar(cliente) : editar(cliente);
 
@@ -34,9 +34,10 @@ public class ClienteDao {
 
     private String adicionar(Cliente cliente) {
         String sql = "insert into cliente(nome, telefone, endereco) VALUES (?,?, ?)";
-        //vai analisar os parametros passados e inserir o PreparedStatement (para criar objetos que pré-compilam instruções SQL)  
+        // vai analisar os parametros passados e inserir o PreparedStatement (para criar
+        // objetos que pré-compilam instruções SQL)
 
-        //validação para caso o usuario já existe 
+        // validação para caso o usuario já existe
         Cliente clienteTemp = buscarClientePeloNome(cliente.getNome());
         if (clienteTemp != null) {
             return String.format("Erro: cliente já existe no banco de dados", cliente);
@@ -64,7 +65,8 @@ public class ClienteDao {
         }
     }
 
-    private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, Cliente cliente) throws SQLException {
+    private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, Cliente cliente)
+            throws SQLException {
 
         preparedStatement.setString(1, cliente.getNome());
         preparedStatement.setString(2, cliente.getTelefone());
@@ -137,43 +139,40 @@ public class ClienteDao {
         }
         return null;
     }
-    
+
     public String deletarPeloId(Long id) {
-    // Verifica se o cliente com o ID fornecido existe
-    Cliente cliente = buscarClientePeloId(id);
-    if (cliente == null) {
-        return "Erro: Cliente não encontrado no banco de dados.";
-    }
-    
-    String sql = "delete from cliente WHERE id = ?";
-    try {
-        PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
-        preparedStatement.setLong(1, id); // Define o ID do cliente a ser deletado
-        int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
-        return resultado == 1 ? "Cliente deletado com sucesso!" : "Erro ao deletar o cliente.";
-    } catch (SQLException e) {
-        return String.format("Erro: %s", e.getMessage());
-    }
-}
-    
-   public String deletarPorNome(String nome) {
-    // ve se o nome do cliente existe
-    Cliente clienteTemp = buscarClientePeloNome(nome);
-    if (clienteTemp == null) {
-        return "Erro: Cliente não encontrado no banco de dados.";
-    }
-    
-    String sql = "delete from cliente WHERE nome = ?";
-    try {
-        PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
-        preparedStatement.setString(1, nome); // Define o nome do cliente a ser deletado
-        int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
-        return resultado > 0 ? "Cliente(s) deletado(s) com sucesso!" : "Erro ao deletar o cliente.";
-    } catch (SQLException e) {
-        return String.format("Erro: %s", e.getMessage());
-    }
-}
+        // Verifica se o cliente com o ID fornecido existe
+        Cliente cliente = buscarClientePeloId(id);
+        if (cliente == null) {
+            return "Erro: Cliente não encontrado no banco de dados.";
+        }
 
+        String sql = "delete from cliente WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
+            preparedStatement.setLong(1, id); // Define o ID do cliente a ser deletado
+            int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
+            return resultado == 1 ? "Cliente deletado com sucesso!" : "Erro ao deletar o cliente.";
+        } catch (SQLException e) {
+            return String.format("Erro: %s", e.getMessage());
+        }
+    }
 
+    public String deletarPorNome(String nome) {
+        // ve se o nome do cliente existe
+        Cliente clienteTemp = buscarClientePeloNome(nome);
+        if (clienteTemp == null) {
+            return "Erro: Cliente não encontrado no banco de dados.";
+        }
 
+        String sql = "delete from cliente WHERE nome = ?";
+        try {
+            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
+            preparedStatement.setString(1, nome); // Define o nome do cliente a ser deletado
+            int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
+            return resultado > 0 ? "Cliente(s) deletado(s) com sucesso!" : "Erro ao deletar o cliente.";
+        } catch (SQLException e) {
+            return String.format("Erro: %s", e.getMessage());
+        }
+    }
 }
