@@ -16,8 +16,9 @@ import com.autoparts.controle.estoque.modelo.dominio.Usuario;
  */
 public class UsuarioTest {
     public static void main(String[] args) {
-        Usuario usuario = new Usuario(0L, "Libhinny Santos", "libini", "liibini2017", "84981327173", Perfil.PADRAO, null, null);
- 
+        Usuario usuario = new Usuario(3L, "Samira Aquino", "samiraaquino", "samira2017", "84981751522", Perfil.ADM, null, null);
+
+
         
         UsuarioDao usuarioDao = new UsuarioDao();
         String menssagem = usuarioDao.salvar(usuario);

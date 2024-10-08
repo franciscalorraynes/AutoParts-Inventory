@@ -88,7 +88,10 @@ public class Pecas {
     public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
     }
-    
+    public Long getIdFornecedor() {
+    return fornecedor != null ? fornecedor.getId() : null; // Retorna o ID do fornecedor se existir
+}
+
     
 
 }

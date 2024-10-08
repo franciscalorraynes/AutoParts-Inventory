@@ -14,6 +14,7 @@ import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 /**
  *
@@ -38,7 +39,7 @@ public class UsuarioDao {
         String sql = "insert into usuario(nome, usuario, senha, telefone, perfil, estado) VALUES (?,?,?,?,?,?)";
         //vai analisar os parametros passados e inserir o PreparedStatement (para criar objetos que pré-compilam instruções SQL)  
         
-        //validação para caso o usuario já exista
+        //validação para caso o usuario já existe
         Usuario usuarioTemp = buscarUsuarioPeloNome(usuario.getNomeUsuario());
         if(usuarioTemp != null){
             return String.format("Erro: username %s já existe no banco de dados", usuario.getNomeUsuario());
@@ -67,9 +68,14 @@ public class UsuarioDao {
     }
 
     private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, Usuario usuario) throws SQLException {
+        
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        
+        String senhaCrypto = passwordEncoder.encode(usuario.getSenha());
+        
         preparedStatement.setString(1, usuario.getNome());
         preparedStatement.setString(2, usuario.getNomeUsuario());
-        preparedStatement.setString(3, usuario.getSenha());
+        preparedStatement.setString(3, senhaCrypto);
         preparedStatement.setString(4, usuario.getTelefone());        
         preparedStatement.setString(5, usuario.getPerfil().name());
         preparedStatement.setBoolean(6, usuario.isEstado());
@@ -97,19 +103,27 @@ public class UsuarioDao {
     }
     
     private Usuario getUsuario(ResultSet result) throws SQLException{
-        Usuario usuario = new Usuario();
-        
-        usuario.setId(result.getLong("id"));
-        usuario.setNome(result.getString("nome"));
-        usuario.setNomeUsuario(result.getString("usuario"));
-        usuario.setSenha(result.getString("senha"));
-        usuario.setTelefone(result.getString("telefone"));
-        usuario.setPerfil(result.getObject("perfil", Perfil.class));
-        usuario.setEstado(result.getBoolean("estado"));
-        usuario.setDataHoraCriacao(result.getObject("data_hora_criacao", LocalDateTime.class));
-        usuario.setUltimoLogin(result.getObject("ultimo_login", LocalDateTime.class));
-        
-        return usuario;
+    Usuario usuario = new Usuario();
+    
+    usuario.setId(result.getLong("id"));
+    usuario.setNome(result.getString("nome"));
+    usuario.setNomeUsuario(result.getString("usuario"));
+    usuario.setSenha(result.getString("senha"));
+    usuario.setTelefone(result.getString("telefone"));
+
+    // Obtenha o perfil como String e converta para o enum Perfil
+    String perfilStr = result.getString("perfil");
+    if (perfilStr != null) {
+        usuario.setPerfil(Perfil.valueOf(perfilStr));
+    } else {
+        usuario.setPerfil(null); // Ou um valor padrão, se apropriado
+    }
+
+    usuario.setEstado(result.getBoolean("estado"));
+    usuario.setDataHoraCriacao(result.getObject("data_hora_criacao", LocalDateTime.class));
+    usuario.setUltimoLogin(result.getObject("ultimo_login", LocalDateTime.class));
+    
+    return usuario;
     }
     
     public Usuario buscarUsuarioPeloId(Long id){
@@ -128,7 +142,7 @@ public class UsuarioDao {
         return null;
     }
  public Usuario buscarUsuarioPeloNome(String nomeUsuario) {
-    String sql = "select * from usuario where nome = ?";
+    String sql = "select * from usuario where usuario = ?";
     try {
         PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
         preparedStatement.setString(1, nomeUsuario);
