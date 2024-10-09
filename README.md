@@ -7,7 +7,7 @@
 ###### Desenvolvido por: [Francisca Lorrayne](https://github.com/franciscalorraynes) e [Samira França](https://github.com/samirafq)
 
 <div>
-  <img src="https://github.com/seuusuario/autoparts-inventory-pro/blob/main/path-to-your-image/image.png?raw=true" width="700" height="250">
+  <img src="https://github.com/franciscalorraynes/AutoParts-Inventory/blob/main/controle-estoque/src/main/java/com/autoparts/controle/estoque/view/modelo/image/Captura%20de%20tela%202024-10-09%20090206.png?raw=true" width="700" height="250">
 </div>
 
 ---
