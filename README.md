@@ -9,8 +9,9 @@
 <div>
   <img src="https://github.com/franciscalorraynes/AutoParts-Inventory/blob/main/controle-estoque/src/main/java/com/autoparts/controle/estoque/view/modelo/image/Captura%20de%20tela%202024-10-09%20090206.png?raw=true" width="700" height="250">
 </div>
-
 ---
+
+**imagem provisoria** 
 
 AutoParts é um sistema de gerenciamento de estoque de peças automotivas, desenvolvido em Java utilizando conceitos de Programação Orientada a Objetos (POO) e JavaFX para a interface gráfica.
 
