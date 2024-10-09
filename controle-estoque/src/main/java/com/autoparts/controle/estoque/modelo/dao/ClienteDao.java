@@ -53,7 +53,7 @@ public class ClienteDao {
         }
     }
 
-    private String editar(Cliente cliente) {
+    public String editar(Cliente cliente) {
         String sql = "update cliente set nome=?, telefone=?, endereco=?  WHERE id=?";
         try {
             PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);

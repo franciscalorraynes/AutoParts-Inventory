@@ -9,7 +9,7 @@ import java.math.BigDecimal;
  * @author Lorrayne
  */
 public class ItemVenda {
-     private Long id;
+    private Long id;
     private Pecas pecas;
     private Venda venda;
     private Integer quantidade;
