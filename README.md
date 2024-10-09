@@ -12,7 +12,7 @@
 
 ---
 
-AutoParts Inventory Pro (AIP) é um sistema de gerenciamento de estoque de peças automotivas, desenvolvido em Java utilizando conceitos de Programação Orientada a Objetos (POO) e JavaFX para a interface gráfica.
+AutoParts é um sistema de gerenciamento de estoque de peças automotivas, desenvolvido em Java utilizando conceitos de Programação Orientada a Objetos (POO) e JavaFX para a interface gráfica.
 
 ## Funcionalidades Principais
 
