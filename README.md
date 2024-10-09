@@ -7,12 +7,12 @@
 ###### Desenvolvido por: [Francisca Lorrayne](https://github.com/franciscalorraynes) e [Samira França](https://github.com/samirafq)
 
 <div>
-  <img src="https://link-para-sua-imagem.jpg" width="700" height="250">
+  <img src="https://github.com/seuusuario/autoparts-inventory-pro/blob/main/path-to-your-image/image.png?raw=true" width="700" height="250">
 </div>
 
 ---
 
-AutoParts é um sistema de gerenciamento de estoque de peças automotivas, desenvolvido em Java utilizando conceitos de Programação Orientada a Objetos (POO) e JavaFX para a interface gráfica.
+AutoParts Inventory Pro (AIP) é um sistema de gerenciamento de estoque de peças automotivas, desenvolvido em Java utilizando conceitos de Programação Orientada a Objetos (POO) e JavaFX para a interface gráfica.
 
 ## Funcionalidades Principais
 
@@ -21,7 +21,6 @@ AutoParts é um sistema de gerenciamento de estoque de peças automotivas, desen
 - **Atualização de informações de peças**: Permite a edição dos dados das peças.
 - **Remoção de peças**: Permite a exclusão de peças do sistema.
 - **Controle de estoque**: Gerencia a entrada e saída de peças.
-- **Controle de cliente**: Gerencia os clientes do estabelecimento.
 - **Relatórios de estoque**: Gera relatórios detalhados diários, semanais e mensais sobre o estoque.
 - **Estoque reserva**: Gerencia um estoque de peças de reserva.
 

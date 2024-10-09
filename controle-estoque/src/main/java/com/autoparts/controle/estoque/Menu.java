@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class Menu {
     private static  Scanner scanner = new Scanner(System.in);
-    private static VendaDao vendaDao = new VendaDao(); // Inicialize sua conexão corretamente
+    //private static VendaDao vendaDao = new VendaDao(); // Inicialize sua conexão corretamente
     private static AutenticacaoDao autenticacaoDao = new AutenticacaoDao(); // Instância do DAO de autenticação
     private static ClienteDao clienteDao = new ClienteDao(); // Instância do DAO de clientes
     private static Usuario usuarioAutenticado; // Armazenar o usuário autenticado
@@ -32,7 +32,7 @@ public class Menu {
 
     private static Usuario realizarLogin() {
         System.out.println("===== Tela de Login =====");
-        System.out.print("Nome de usuário: ");
+        System.out.print("Nome de usuario: ");
         String usuario = scanner.nextLine();
         System.out.print("Senha: ");
         String senha = scanner.nextLine();
@@ -52,12 +52,12 @@ public class Menu {
             if (Perfil.ADM.equals(usuarioAutenticado.getPerfil())) {
                 System.out.println("Bem-vindo, administrador!");
             } else if (Perfil.PADRAO.equals(usuarioAutenticado.getPerfil())) {
-                System.out.println("Bem-vindo, usuário padrão!");
+                System.out.println("Bem-vindo, usuario padrao!");
             }
             
             return usuarioAutenticado; // Retorna o usuário autenticado
         } else {
-            System.out.println("Falha no login! Usuário ou senha inválidos.");
+            System.out.println("Falha no login! Usuário ou senha invalidos.");
             return null; // Retorna null se a autenticação falhar
         }
     }
@@ -68,11 +68,11 @@ public class Menu {
             System.out.println("===== Menu Principal =====");
             System.out.println("1. Criar Venda");
             System.out.println("2. Listar Vendas");
-            System.out.println("3. Buscar Relatório de Vendas por ID");
-            System.out.println("4. Listar Relatórios de Vendas");
+            System.out.println("3. Buscar Relatorio de Vendas por ID");
+            System.out.println("4. Listar Relatorios de Vendas");
             System.out.println("5. Gerenciar Clientes");
             System.out.println("6. Sair");
-            System.out.print("Escolha uma opção: ");
+            System.out.print("Escolha uma opcao: ");
             opcao = scanner.nextInt();
             scanner.nextLine(); // Consumir a quebra de linha
 
@@ -131,13 +131,13 @@ public class Menu {
     }
 
     private static void buscarRelatorioPorId() {
-        System.out.print("Digite o ID do Relatório de Vendas: ");
+        System.out.print("Digite o ID do Relatorio de Vendas: ");
         Long relatorioId = scanner.nextLong();
         // Lógica para buscar o relatório de vendas pelo ID
     }
 
     private static void listarRelatorios() {
-        System.out.println("===== Listagem de Relatórios de Vendas =====");
+        System.out.println("===== Listagem de Relatorios de Vendas =====");
         // Aqui você pode implementar a listagem de relatórios usando relatorioVendasDao.listarRelatoriosVendas()
     }
 
@@ -172,7 +172,7 @@ public class Menu {
                         System.out.println("Voltando ao menu principal...");
                         break;
                     default:
-                        System.out.println("Opção inválida! Tente novamente.");
+                        System.out.println("Opção invalida! Tente novamente.");
                 }
             } while (opcaoCliente != 5);
         } else {

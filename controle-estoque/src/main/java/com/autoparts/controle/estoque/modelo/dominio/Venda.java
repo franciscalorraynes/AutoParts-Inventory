@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
  *
  * @author Lorrayne
  */
-public class Venda {
+public class Venda{
     private Long id;
     private Cliente cliente;
     private Usuario usuario;
