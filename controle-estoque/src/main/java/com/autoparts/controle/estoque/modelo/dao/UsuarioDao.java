@@ -32,7 +32,7 @@ public class UsuarioDao {
     //
     public String salvar(Usuario usuario) {
         //quando for 0 novo cadastro, !0 editar
-        return usuario.getId() == 0L ? adicionar(usuario) : editar(usuario);
+        return (usuario.getId() == null || usuario.getId() == 0L) ? adicionar(usuario) : editar(usuario);
     }
 
     private String adicionar(Usuario usuario) {
@@ -81,7 +81,7 @@ public class UsuarioDao {
         preparedStatement.setBoolean(6, usuario.isEstado());
 
         //se o usuario for diferente de zero, ele vai cadastrar 
-        if (usuario.getId() != 0L) {
+        if (usuario.getId() != null) {
             preparedStatement.setLong(7, usuario.getId());
         }
     }
