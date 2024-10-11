@@ -7,6 +7,8 @@ package com.autoparts.controle.estoque.modelo.dao;
 import com.autoparts.controle.estoque.modelo.conexao.Conexao;
 import com.autoparts.controle.estoque.modelo.conexao.ConexaoMySql;
 import com.autoparts.controle.estoque.modelo.dominio.Fornecedor;
+import com.autoparts.controle.estoque.modelo.dominio.Pecas;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -131,5 +133,40 @@ public class FornecedorDao {
     }
     return null;
 }
-       
+       public String deletarPeloId(Long id) {
+        // Verifica se a fornecedor com o ID fornecido existe
+        Fornecedor fornecedor = buscarFornecedorPeloId(id);
+        if (fornecedor == null) {
+            return "Erro: Fornecedor não encontrado no banco de dados.";
+        }
+
+        String sql = "delete from fornecedor WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
+            preparedStatement.setLong(1, id); // Define o ID do fornecedor a ser deletado
+            int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
+            return resultado == 1 ? "Fornecedor deletado com sucesso!" : "Erro ao deletar o fornecedor.";
+        } catch (SQLException e) {
+            return String.format("Erro: %s", e.getMessage());
+        }
+    }
+
+    public String deletarPorNome(String nome) {
+        // ve se o nome do fornecedor existe
+        Fornecedor fornecedortemFornecedor = buscarFornecedorPeloNome(nome);
+        if (fornecedortemFornecedor == null) {
+            return "Erro: fornecedor não encontrado no banco de dados.";
+        }
+
+        String sql = "delete from fornecedor WHERE nome = ?";
+        try {
+            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
+            preparedStatement.setString(1, nome); // Define o nome do fornecedor a ser deletado
+            int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
+            return resultado > 0 ? "Fornecedor (s) deletado(s) com sucesso!" : "Erro ao deletar o fornecedor.";
+        } catch (SQLException e) {
+            return String.format("Erro: %s", e.getMessage());
+        }
+    }
+
 }
