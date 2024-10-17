@@ -15,14 +15,14 @@ import com.autoparts.controle.estoque.modelo.dominio.Cliente;
 public class ClienteTest {
     public static void main(String[] args) {
     
-        // Cliente cliente = new Cliente(1L, "Maria Bonita", "11235648", "Rua das margaridas");
+        Cliente cliente = new Cliente(null, "Ivaneide Tomas", "11235648", "Rua Jose Daniel de Souza");
 
         
          ClienteDao clienteDao = new ClienteDao();
-        // String menssagem = clienteDao.salvar(cliente);
-        // System.out.println(menssagem);
+         String menssagem = clienteDao.salvar(cliente);
+         System.out.println(menssagem);
 
-        String nomeParaBuscar = "Maria Bonita"; // Substitua pelo ID do cliente que deseja buscar
+     /*   String nomeParaBuscar = "Maria Bonita"; // Substitua pelo ID do cliente que deseja buscar
         Cliente cliente = clienteDao.buscarClientePeloNome(nomeParaBuscar);
     
     if (cliente != null) {
@@ -32,7 +32,7 @@ public class ClienteTest {
         System.out.println("Endereço: " + cliente.getEndereco());
     } else {
         System.out.println("Cliente não encontrado.");
-    }
+    }*/
 
     }
 }

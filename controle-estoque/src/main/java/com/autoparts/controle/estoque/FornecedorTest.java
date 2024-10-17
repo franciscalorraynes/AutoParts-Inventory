@@ -13,7 +13,7 @@ import com.autoparts.controle.estoque.modelo.dominio.Fornecedor;
  */
 public class FornecedorTest {
     public static void main(String[] args) {
-    Fornecedor fornecedor = new Fornecedor(null, "Josefina Andrade", "001.002.003-00", "1234567", "Rua Sem Fim, Nº 10");
+    Fornecedor fornecedor = new Fornecedor(null, "Manoel Aquino", "000.000.000-00", "1234567", "Rua Sem Fim, Nº 10");
     
     FornecedorDao fornecedorDao = new FornecedorDao();
     String menssaString = fornecedorDao.salvar(fornecedor);

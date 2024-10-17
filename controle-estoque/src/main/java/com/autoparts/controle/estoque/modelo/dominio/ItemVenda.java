@@ -14,6 +14,7 @@ public class ItemVenda {
     private Venda venda;
     private Integer quantidade;
     private BigDecimal precoUnitario;
+    
 
     public ItemVenda() {
     }

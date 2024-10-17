@@ -136,5 +136,9 @@ public class Usuario {
     public void mudarEstado(){
         this.estado = !this.estado;
     }
+    
+     public boolean isAdministrador() {
+        return this.perfil == Perfil.ADM;
+    }
  
 }
