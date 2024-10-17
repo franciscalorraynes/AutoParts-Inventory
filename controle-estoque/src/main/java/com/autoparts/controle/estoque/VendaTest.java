@@ -21,10 +21,10 @@ public class VendaTest {
     public static void main(String[] args) {
         // Criar cliente e usuário fictícios
     //     Cliente cliente = new Cliente();
-    //     cliente.setId(1L); // Supondo que o ID 1 exista no BD
+    //     cliente.setId(1L); // 
 
     //     Usuario usuario = new Usuario();
-    //     usuario.setId(1L); // Supondo que o ID 1 exista no BD
+    //     usuario.setId(1L); // 
 
     //     // Criar uma venda
     //     Venda venda = new Venda();
