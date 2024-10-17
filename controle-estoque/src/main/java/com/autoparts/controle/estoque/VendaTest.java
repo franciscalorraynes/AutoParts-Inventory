@@ -20,29 +20,30 @@ public class VendaTest {
 
     public static void main(String[] args) {
         // Criar cliente e usuário fictícios
-        Cliente cliente = new Cliente();
-        cliente.setId(1L); // Supondo que o ID 1 exista no BD
+    //     Cliente cliente = new Cliente();
+    //     cliente.setId(1L); // Supondo que o ID 1 exista no BD
 
-        Usuario usuario = new Usuario();
-        usuario.setId(2L); // Supondo que o ID 1 exista no BD
+    //     Usuario usuario = new Usuario();
+    //     usuario.setId(1L); // Supondo que o ID 1 exista no BD
 
-        // Criar uma venda
-        Venda venda = new Venda();
-        venda.setCliente(cliente);
-        venda.setUsuario(usuario);
-        venda.setDataVenda(LocalDateTime.now());
-        venda.setTotalDaVenda(new BigDecimal("500.00"));
-        venda.setDesconto(new BigDecimal("50.00"));
-        venda.setTroco(new BigDecimal("0.00"));
-        venda.setObservacao("Compra de peças automotivas");
+    //     // Criar uma venda
+    //     Venda venda = new Venda();
+    //     venda.setCliente(cliente);
+    //     venda.setUsuario(usuario);
+    //     venda.setDataVenda(LocalDateTime.now());
+    //     venda.setTotalDaVenda(new BigDecimal("500.00"));
+    //     venda.setDesconto(new BigDecimal("50.00"));
+    //     venda.setTroco(new BigDecimal("0.00"));
+    //     venda.setObservacao("Compra de peças automotivas");
 
-        // Salvar a venda
-        VendaDao vendaDao = new VendaDao(); // Passar sua conexão válida aqui
-        try {
-            String resultado = vendaDao.salvar(venda);
-            System.out.println(resultado);
-        } catch (SQLException e) {
-            System.out.println("Erro ao salvar a venda: " + e.getMessage());
-        }
-    }
+    //     // Salvar a venda
+    //     VendaDao vendaDao = new VendaDao(); // Passar sua conexão válida aqui
+    //     try {
+    //         Long resultado = vendaDao.deletarPeloId(venda);
+    //         System.out.println(resultado);
+    //     } catch (SQLException e) {
+    //         System.out.println("Erro ao salvar a venda: " + e.getMessage());
+    //     }
+
+}
 }

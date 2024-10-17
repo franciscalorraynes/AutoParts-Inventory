@@ -1,19 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.autoparts.controle.estoque;
 
 import com.autoparts.controle.estoque.modelo.dao.UsuarioDao;
 import com.autoparts.controle.estoque.modelo.dominio.Perfil;
 import com.autoparts.controle.estoque.modelo.dominio.Usuario;
-//import java.time.LocalDateTime;
-//import java.time.LocalDateTime;
 
-/**
- *
- * @author Lorrayne
- */
 public class UsuarioTest {
     public static void main(String[] args) {
         Usuario usuario = new Usuario(null, "Wesley Fernandes", "fernandes", "12345", "84981751522", Perfil.PADRAO, null, null);
@@ -21,8 +11,9 @@ public class UsuarioTest {
 
         
         UsuarioDao usuarioDao = new UsuarioDao();
-        String menssagem = usuarioDao.salvar(usuario);
-        System.out.println(menssagem);
+        String mensagem = usuarioDao.salvar(usuario);
+
+        // Exibindo a mensagem de sucesso ou erro
+        System.out.println(mensagem);
     }   
-    
 }

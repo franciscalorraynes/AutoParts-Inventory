@@ -111,6 +111,24 @@ public class VendaDao {
         }
         return null;
     }
+    
+    public String deletarPeloId(Long id) {
+        // Verifica se a venda com o ID fornecido existe
+        Venda venda = buscarVendaPeloId(id);
+        if (venda == null) {
+            return "Erro: Venda não encontrado no banco de dados.";
+        }
+
+        String sql = "delete from venda WHERE id = ?";
+        try {
+            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
+            preparedStatement.setLong(1, id); // Define o ID da venda a ser deletado
+            int resultado = preparedStatement.executeUpdate(); // Executa o comando de deleção
+            return resultado == 1 ? "Venda deletado com sucesso!" : "Erro ao deletar o venda.";
+        } catch (SQLException e) {
+            return String.format("Erro: %s", e.getMessage());
+        }
+    }
 
     public String deletarPeloId(Long id) {
         // Verifica se a venda com o ID fornecido existe
