@@ -19,9 +19,9 @@ public class ListarRelatoriosVendasForm extends JPanel {
         add(textArea);
         add(botaoAtualizar);
 
-        // Lógica para atualizar relatórios de vendas (opcional)
+        //  atualizar relatórios de vendas (opcional)
         botaoAtualizar.addActionListener(e -> {
-            // Lógica para atualizar a lista de relatórios de vendas
+            //  atualizar a lista de relatórios de vendas
             JOptionPane.showMessageDialog(this, "Relatórios de vendas atualizados!");
         });
     }

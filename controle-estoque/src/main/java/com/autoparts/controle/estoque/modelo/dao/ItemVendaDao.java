@@ -40,7 +40,7 @@ public class ItemVendaDao {
 
         try {
             PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
-            preencherValoresDePreparedStatement(preparedStatement, itemVenda); // Preencher os valores aqui
+            preencherValoresDePreparedStatement(preparedStatement, itemVenda); 
             preparedStatement.setLong(5, itemVenda.getId()); // ID do item a ser editado
 
             int resultado = preparedStatement.executeUpdate();

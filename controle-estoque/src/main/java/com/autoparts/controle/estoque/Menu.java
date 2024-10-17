@@ -528,7 +528,7 @@ public class Menu {
             System.out.printf("%-10s %-30s %-15s %-10s %-10s %-10s%n", "ID", "Cliente", "Usuario", "Total", "Desconto", "Troco");
             System.out.println("---------------------------------------------------------------------------------");
             for (Venda venda : vendas) {
-                // Aqui, voce assume que Venda tem metodos para obter o cliente e usuario
+              
                 String clienteNome = venda.getCliente().getNome(); // Acesse o nome do cliente
                 String usuarioNome = venda.getUsuario().getNome(); // Acesse o nome do usuario
 
@@ -547,12 +547,12 @@ public class Menu {
     private static void buscarRelatorioPorId() {
         System.out.print("Digite o ID do Relatorio de Vendas: ");
         Long relatorioId = scanner.nextLong();
-        // Logica para buscar o relatorio de vendas pelo ID
+        // buscar o relatorio de vendas pelo ID
     }
 
     private static void listarRelatorios() {
         System.out.println("===== Listagem de Relatorios de Vendas =====");
-        // Aqui voce pode implementar a listagem de relatorios usando relatorioVendasDao.listarRelatoriosVendas()
+        //implementar 
     }
 
     private static void gerenciarClientes() {
@@ -649,7 +649,7 @@ public class Menu {
         }
 
         // Atualiza o cliente no banco de dados
-        String resultado = clienteDao.editar(clienteExistente); // Método que deve existir no ClienteDao para atualização
+        String resultado = clienteDao.editar(clienteExistente); 
         System.out.println(resultado);
     }
 

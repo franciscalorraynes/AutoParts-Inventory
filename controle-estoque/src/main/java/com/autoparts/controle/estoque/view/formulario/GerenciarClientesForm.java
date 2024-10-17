@@ -10,7 +10,7 @@ import java.awt.event.KeyEvent;
 
 public class GerenciarClientesForm extends JPanel {
 
-    private Cliente clienteEditando = null; // Store the client being edited
+    private Cliente clienteEditando = null; 
 
     private DefaultTableModel tabelaModelo;
     private JButton botaoAdicionar;
@@ -96,7 +96,7 @@ public class GerenciarClientesForm extends JPanel {
             campoTelefone.setText("");
         });
 
-        // Lógica para salvar alterações do cliente
+        //  alterações do cliente
         botaoSalvarAlteracoes.addActionListener(e -> {
             if (editandoCliente) {
                 String nome = campoNome.getText().trim();
@@ -132,7 +132,7 @@ public class GerenciarClientesForm extends JPanel {
             }
         });
 
-        // Lógica para remover cliente
+        //remover cliente
         botaoRemover.addActionListener(e -> {
             String nome = JOptionPane.showInputDialog(this, "Digite o nome do cliente a ser removido:");
             if (nome != null && !nome.isEmpty()) {
@@ -144,12 +144,12 @@ public class GerenciarClientesForm extends JPanel {
             }
         });
 
-        // Variável de cliente fora do método para persistir na edição
-        //Cliente cliente = null;
-        // Lógica para editar cliente
+      
+       
+        // editar cliente
         botaoEditar.addActionListener(e -> {
             String input = JOptionPane.showInputDialog(this, "Digite o nome ou ID do cliente a ser editado:");
-            Cliente cliente = null;  // Declare cliente inside the lambda
+            Cliente cliente = null;  
             if (input != null && !input.isEmpty()) {
                 try {
                     long id = Long.parseLong(input);  // Tenta buscar por ID
@@ -178,7 +178,7 @@ public class GerenciarClientesForm extends JPanel {
             }
         });
 
-        // Lógica para salvar alterações do cliente
+        // salvar alterações do cliente
         botaoSalvarAlteracoes.addActionListener(e -> {
             if (editandoCliente && clienteEditando != null) {
                 String nome = campoNome.getText().trim();
@@ -221,7 +221,7 @@ public class GerenciarClientesForm extends JPanel {
             if (listaClientes != null && !listaClientes.isEmpty()) {
                 tabelaModelo.setRowCount(0);
 
-                for (Cliente clienteDaLista : listaClientes) {  // Change variable name
+                for (Cliente clienteDaLista : listaClientes) {  
                     Object[] linha = {clienteDaLista.getId(), clienteDaLista.getNome(), clienteDaLista.getEndereco(), clienteDaLista.getTelefone()};
                     tabelaModelo.addRow(linha);
                 }
@@ -242,13 +242,13 @@ public class GerenciarClientesForm extends JPanel {
         });
     }
 
-    // Método para buscar cliente por ID
+    //  buscar cliente por ID
     private Cliente buscarClientePorId(Long id) {
         ClienteDao clienteDao = new ClienteDao();
         return clienteDao.buscarClientePeloId(id);
     }
 
-    // Método para buscar cliente por Nome
+    //  buscar cliente por Nome
     private Cliente buscarClientePorNome(String nome) {
         ClienteDao clienteDao = new ClienteDao();
         return clienteDao.buscarClientePeloNome(nome);

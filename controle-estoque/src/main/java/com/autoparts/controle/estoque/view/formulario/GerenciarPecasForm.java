@@ -19,14 +19,14 @@ public class GerenciarPecasForm extends JPanel {
         add(botaoAdicionar);
         add(botaoRemover);
 
-        // Lógica para gerenciar peças (opcional)
+        //  gerenciar peças (opcional)
         botaoAdicionar.addActionListener(e -> {
-            // Lógica para adicionar peça
+            //  adicionar peça
             JOptionPane.showMessageDialog(this, "Peça adicionada!");
         });
         
         botaoRemover.addActionListener(e -> {
-            // Lógica para remover peça
+            //  remover peça
             JOptionPane.showMessageDialog(this, "Peça removida!");
         });
     }

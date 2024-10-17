@@ -22,7 +22,7 @@ public class GerenciarVendasForm extends JPanel {
         JButton botaoBuscarNome = new JButton("Buscar por Nome Cliente");
         JButton botaoListarVendas = new JButton("Listar Vendas");
 
-        // Posições dos componentes
+        // Posições dos botao
         label.setBounds(30, 30, 200, 25);
         botaoAdicionar.setBounds(30, 70, 150, 25);
         botaoRemover.setBounds(30, 110, 150, 25);
@@ -30,7 +30,7 @@ public class GerenciarVendasForm extends JPanel {
         botaoBuscarNome.setBounds(30, 190, 200, 25);
         botaoListarVendas.setBounds(30, 230, 150, 25);
 
-        // Adicionando os componentes ao painel
+        // Adicionando os botao ao painel
         add(label);
         add(botaoAdicionar);
         add(botaoRemover);
@@ -38,20 +38,20 @@ public class GerenciarVendasForm extends JPanel {
         add(botaoBuscarNome);
         add(botaoListarVendas);
 
-        // Lógica para Adicionar Venda
+        //  Adicionar Venda
         botaoAdicionar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Exemplo de lógica para adicionar venda (poderia ser uma nova tela ou um form)
+                // adicionar venda 
                 JOptionPane.showMessageDialog(GerenciarVendasForm.this, "Tela de adicionar venda aberta!");
             }
         });
 
-        // Lógica para Remover Venda
+        //  Remover Venda
         botaoRemover.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Lógica para remover venda, poderia exibir um campo de ID
+                //  remover venda, poderia exibir um campo de ID
                 String idVenda = JOptionPane.showInputDialog("Digite o ID da venda a remover:");
                 if (idVenda != null && !idVenda.isEmpty()) {
                     Long id = Long.parseLong(idVenda);
@@ -61,11 +61,11 @@ public class GerenciarVendasForm extends JPanel {
             }
         });
 
-        // Lógica para Buscar Venda por ID
+        //  Buscar Venda por ID
         botaoBuscarId.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Exemplo de busca por ID
+                //  busca por ID
                 String idVenda = JOptionPane.showInputDialog("Digite o ID da venda:");
                 if (idVenda != null && !idVenda.isEmpty()) {
                     Long id = Long.parseLong(idVenda);
@@ -79,11 +79,11 @@ public class GerenciarVendasForm extends JPanel {
             }
         });
 
-        // Lógica para Buscar Venda por Nome do Cliente
+        //  Buscar Venda por Nome do Cliente
         botaoBuscarNome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Exemplo de busca por nome de cliente
+                // busca por nome de cliente
                 String nomeCliente = JOptionPane.showInputDialog("Digite o nome do cliente:");
                 if (nomeCliente != null && !nomeCliente.isEmpty()) {
                     List<Venda> vendas = vendaDao.buscarVendasPorNomeCliente(nomeCliente);
@@ -100,11 +100,11 @@ public class GerenciarVendasForm extends JPanel {
             }
         });
 
-        // Lógica para Listar todas as Vendas
+        //  Listar todas as Vendas
         botaoListarVendas.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                // Exemplo de listagem de todas as vendas
+                //  listagem de todas as vendas
                 List<Venda> vendas = vendaDao.buscarVendas();
                 if (vendas.isEmpty()) {
                     JOptionPane.showMessageDialog(GerenciarVendasForm.this, "Nenhuma venda encontrada.");

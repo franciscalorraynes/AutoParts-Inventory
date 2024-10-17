@@ -19,9 +19,9 @@ public class BuscarRelatoriosForm extends JPanel {
         add(txtId);
         add(botaoBuscar);
 
-        // Lógica para buscar relatório (opcional)
+        // buscar relatório (opcional)
         botaoBuscar.addActionListener(e -> {
-            // Lógica para buscar o relatório
+            // buscar o relatório
             JOptionPane.showMessageDialog(this, "Relatório encontrado!");
         });
     }

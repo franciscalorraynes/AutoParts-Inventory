@@ -54,7 +54,7 @@ public class BuscarRelatorioForm extends JFrame {
     private void buscarRelatorio() {
         try {
             Long relatorioId = Long.parseLong(txtRelatorioId.getText().trim());
-            Venda relatorio = vendaDao.buscarVendaPeloId(relatorioId); // Certifique-se de que o método existe
+            Venda relatorio = vendaDao.buscarVendaPeloId(relatorioId); 
             if (relatorio != null) {
                 txtAreaResultado.setText("ID: " + relatorio.getId() +
                         "\nCliente: " + relatorio.getCliente().getNome() +
