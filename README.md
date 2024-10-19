@@ -2,7 +2,7 @@
 
 ---
 
-#### Sistema de Controle de Estoque de Peças Automotivas
+#### Sistema de Gereciamento de Controle de Estoque de Peças Automotivas
 
 ###### Desenvolvido por: [Francisca Lorrayne](https://github.com/franciscalorraynes) e [Samira França](https://github.com/samirafq)
 

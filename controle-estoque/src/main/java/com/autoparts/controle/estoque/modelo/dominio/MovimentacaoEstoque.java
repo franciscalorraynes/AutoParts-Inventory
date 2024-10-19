@@ -26,8 +26,6 @@ public class MovimentacaoEstoque {
         this.fornecedor = fornecedor;
     }
 
-    
-   
 
     public Long getId() {
         return id;
