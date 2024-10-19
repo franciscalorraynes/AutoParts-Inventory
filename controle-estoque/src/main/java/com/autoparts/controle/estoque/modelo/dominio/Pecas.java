@@ -15,7 +15,7 @@ public class Pecas {
     private Long id;
     private String nome;
     private String descricao ;
-    private BigDecimal quantidade;
+    private Integer quantidade;
     private BigDecimal preco ;
     private LocalDateTime dataCriacao;
     Fornecedor fornecedor;  
@@ -23,7 +23,7 @@ public class Pecas {
     public Pecas() {
     }
 
-    public Pecas(Long id, String nome, String descricao, BigDecimal quantidade, BigDecimal preco, LocalDateTime dataCriacao, Fornecedor fornecedor) {
+    public Pecas(Long id, String nome, String descricao, Integer quantidade, BigDecimal preco, LocalDateTime dataCriacao, Fornecedor fornecedor) {
         this.id = id;
         this.nome = nome;
         this.descricao = descricao;
@@ -57,11 +57,11 @@ public class Pecas {
         this.descricao = descricao;
     }
 
-    public BigDecimal getQuantidade() {
+    public Integer getQuantidade() {
         return quantidade;
     }
 
-    public void setQuantidade(BigDecimal quantidade) {
+    public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
     }
 

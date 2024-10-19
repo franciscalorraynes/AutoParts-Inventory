@@ -6,6 +6,7 @@ package com.autoparts.controle.estoque.modelo.dominio;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  *
@@ -20,7 +21,10 @@ public class Venda{
     private BigDecimal troco;
     private String observacao;
     private LocalDateTime dataVenda;
+    
+    //private List<ItemVenda> itensVenda;
 
+    
     public Venda() {
     }
 
@@ -33,7 +37,10 @@ public class Venda{
         this.troco = troco;
         this.observacao = observacao;
         this.dataVenda = dataVenda;
+        //this.itensVenda = itensVenda;
     }
+
+    
 
     public Long getId() {
         return id;
@@ -98,4 +105,15 @@ public class Venda{
     public void setDataVenda(LocalDateTime dataVenda) {
         this.dataVenda = dataVenda;
     }
+    /*
+    // Novo getter para a lista de itens de venda
+    public List<ItemVenda> getItensVenda() {
+        return itensVenda;
+    }
+
+    // Novo setter para a lista de itens de venda
+    public void setItensVenda(List<ItemVenda> itensVenda) {
+        this.itensVenda = itensVenda;
+    }
+*/
 }

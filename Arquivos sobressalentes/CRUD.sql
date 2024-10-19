@@ -44,9 +44,12 @@ INSERT INTO venda (id_cliente, valor_total, id_usuario) VALUES
 (1, 100.00, 1), 
 (2, 71.99, 1);
 update venda set valor_total = 200 where id = 2;
-
-select * from usuario;
+use controle_estoque;
+select * from movimentacaoEstoque;
 DESCRIBE pecas;
+
+SHOW COLUMNS FROM relatorio_vendas;
+
 
 
 -- Inserindo dados na tabela relatorio_vendas
@@ -54,5 +57,11 @@ INSERT INTO relatorioVendas (idVenda, idCliente, idPeca, quantidade, valorTotal)
 (1, 1, 1, 2, 79.99), 
 (2, 2, 2, 4, 350.00);
 
+SHOW VARIABLES LIKE 'max_connections';
 
 
+SET GLOBAL max_connections = 200; -- ou um número que atenda sua necessidade
+DESCRIBE item_venda;
+
+
+DROP TABLE relatorioVendas;

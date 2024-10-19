@@ -66,18 +66,18 @@ public class UsuarioDao {
 
     private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, Usuario usuario) throws SQLException {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String senhaCrypto = passwordEncoder.encode(usuario.getSenha());
+    String senhaCrypto = passwordEncoder.encode(usuario.getSenha());
 
-        preparedStatement.setString(1, usuario.getNome());
-        preparedStatement.setString(2, usuario.getNomeUsuario());
-        preparedStatement.setString(3, senhaCrypto);
-        preparedStatement.setString(4, usuario.getTelefone());
-        preparedStatement.setString(5, usuario.getPerfil().name());
-        preparedStatement.setBoolean(6, usuario.isEstado());
+    preparedStatement.setString(1, usuario.getNome());  // Nome completo do usuário
+    preparedStatement.setString(2, usuario.getNomeUsuario());  // Nome de login
+    preparedStatement.setString(3, senhaCrypto);  // Senha criptografada
+    preparedStatement.setString(4, usuario.getTelefone());  // Telefone
+    preparedStatement.setString(5, usuario.getPerfil().name());  // Perfil (ADM ou PADRAO)
+    preparedStatement.setBoolean(6, usuario.isEstado());  // Estado (ativo ou inativo)
 
-        if (usuario.getId() != null) {
-            preparedStatement.setLong(7, usuario.getId());
-        }
+    if (usuario.getId() != null) {
+        preparedStatement.setLong(7, usuario.getId());  // ID para edição
+    }
     }
 
     public List<Usuario> buscarUsuarios() {

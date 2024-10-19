@@ -14,7 +14,7 @@ import java.sql.SQLException;
  */
 public class ConexaoMySql implements Conexao {
 private final String USUARIO = "root";
-private final String SENHA = "samira2017";
+private final String SENHA = "980423";
 private final String  URL = "jdbc:mysql://localhost:3306/controle_estoque";
 private Connection conectar;
 

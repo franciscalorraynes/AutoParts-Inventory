@@ -24,16 +24,30 @@ public class ItemVendaDao {
     }
 
     private String adicionar(ItemVenda itemVenda) {
-        String sql = "insert into item_venda(id_venda, id_peca, quantidade, preco_unitario) values (?, ?, ?, ?)";
-
-        try (PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql)) {
-            preencherValoresDePreparedStatement(preparedStatement, itemVenda);
-            int resultado = preparedStatement.executeUpdate();
-            return resultado == 1 ? "Item adicionado com sucesso!" : "Não foi possível adicionar o item";
-        } catch (SQLException e) {
-            return String.format("Erro: %s", e.getMessage());
+    String sql = "insert into item_venda(id_venda, id_peca, quantidade, preco_unitario) values (?, ?, ?, ?)";
+    
+    try (PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql)) {
+        preencherValoresDePreparedStatement(preparedStatement, itemVenda);
+        int resultado = preparedStatement.executeUpdate();
+        
+        if (resultado == 1) {
+            // Atualizar o estoque após adicionar o item de venda
+            MovimentacaoEstoqueDao movimentacaoEstoqueDao = new MovimentacaoEstoqueDao();
+            String respostaMovimentacao = movimentacaoEstoqueDao.subtrairPecasDoEstoque(itemVenda.getPecas().getId(), itemVenda.getQuantidade(), itemVenda.getVenda().getId());
+            
+            if (respostaMovimentacao.startsWith("Erro")) {
+                return respostaMovimentacao; // Retorna o erro se houver problema na movimentação
+            }
+            
+            return "Item adicionado e estoque atualizado com sucesso!";
         }
+        
+        return "Não foi possível adicionar o item";
+    } catch (SQLException e) {
+        return String.format("Erro: %s", e.getMessage());
     }
+}
+
 
     private String editar(ItemVenda itemVenda) {
         String sql = "update item_venda set id_venda=?, id_peca=?, quantidade=?, preco_unitario=? where id = ?";
@@ -72,6 +86,26 @@ public class ItemVendaDao {
 
         return itemVendas;
     }
+    
+    public List<ItemVenda> buscarItemVendasPorPecaOuVenda(ItemVenda itemVenda) {
+    String sql = "select * from item_venda where id_venda = ? or id_peca = ?";
+    List<ItemVenda> itemVendas = new ArrayList<>();
+
+    try (PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql)) {
+        preparedStatement.setLong(1, itemVenda.getVenda().getId());
+        preparedStatement.setLong(2, itemVenda.getPecas().getId());
+        ResultSet result = preparedStatement.executeQuery();
+
+        while (result.next()) {
+            itemVendas.add(getItemVenda(result));
+        }
+    } catch (SQLException e) {
+        System.out.println(String.format("Erro: %s", e.getMessage()));
+    }
+
+    return itemVendas;
+}
+
 
     private ItemVenda getItemVenda(ResultSet result) throws SQLException {
 

@@ -8,13 +8,13 @@ USE controle_estoque;
 CREATE TABLE usuario (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
     nome VARCHAR(75) NOT NULL,
-    usuario VARCHAR(50) NOT NULL UNIQUE,
+    usuario VARCHAR(50) NOT NULL UNIQUE, -- Garantir logins únicos
     senha VARCHAR(100) NOT NULL, 
     telefone VARCHAR(20), 
     perfil ENUM('ADM', 'PADRAO') DEFAULT 'PADRAO',
     estado BOOLEAN NOT NULL DEFAULT TRUE,
     data_hora_criacao DATETIME DEFAULT CURRENT_TIMESTAMP,
-    ultimo_login DATETIME DEFAULT '1970-01-01 00:00:00'
+    ultimo_login DATETIME DEFAULT '0001-01-01 00:00:00'
 );
 
 -- Tabela de Clientes
@@ -33,6 +33,9 @@ CREATE TABLE fornecedor (
     telefone VARCHAR(20),
     endereco TEXT
     );
+SELECT p.id, p.nome, p.descricao, p.quantidade, p.preco, f.nome AS fornecedor, p.data_criacao
+FROM pecas p
+JOIN fornecedor f ON p.id_fornecedor = f.id;
 
 -- Tabela de Peças
 CREATE TABLE pecas (
@@ -59,7 +62,6 @@ CREATE TABLE venda (
     FOREIGN KEY (id_usuario) REFERENCES usuario(id)
 );
 
-
 -- Tabela de Itens de Venda
 CREATE TABLE item_venda (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
@@ -71,12 +73,41 @@ CREATE TABLE item_venda (
     FOREIGN KEY (id_peca) REFERENCES pecas(id)
 );
 
--- Tabela de Relatórios
-CREATE TABLE relatorios (
+	-- Tabela de Movimentação de Estoque (Histórico de Entradas e Saídas)
+CREATE TABLE movimentacaoEstoque (
     id BIGINT PRIMARY KEY AUTO_INCREMENT,
-    nome_relatorio VARCHAR(100),
-    conteudo_relatorio TEXT,
-    data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    id_usuario BIGINT,
-    FOREIGN KEY (id_usuario) REFERENCES usuario(id)
+    id_peca BIGINT NOT NULL,
+    quantidade INT NOT NULL,
+    tipo_movimentacao ENUM('ENTRADA', 'SAIDA') NOT NULL, -- Tipo de movimentação
+    data_movimentacao DATETIME DEFAULT CURRENT_TIMESTAMP,
+    id_venda BIGINT, -- Usado para saídas
+    id_fornecedor BIGINT, -- Usado para entradas
+    FOREIGN KEY (id_peca) REFERENCES pecas(id),
+    FOREIGN KEY (id_venda) REFERENCES venda(id),
+    FOREIGN KEY (id_fornecedor) REFERENCES fornecedor(id)
 );
+
+	-- Tabela de Ordem de Serviço
+	CREATE TABLE ordemServico (
+		idOs BIGINT PRIMARY KEY AUTO_INCREMENT, 
+		data_os TIMESTAMP DEFAULT CURRENT_TIMESTAMP, -- Data e hora automática
+		equipamento VARCHAR(150) NOT NULL, 
+		defeito VARCHAR(150) NOT NULL,
+		servicoPrestado VARCHAR(150),
+		funcionarioResponsavel VARCHAR(30),
+		valor DECIMAL(10,2),
+		idCliente BIGINT NOT NULL, -- Chave estrangeira para clientes
+		FOREIGN KEY (idCliente) REFERENCES cliente(id)
+	);
+    
+CREATE VIEW relatorio_vendas AS
+SELECT v.id AS idVenda, c.nome AS cliente, p.nome AS peca, iv.quantidade, v.valor_total, v.data_venda
+FROM venda v
+JOIN cliente c ON v.id_cliente = c.id
+JOIN item_venda iv ON v.id = iv.id_venda
+JOIN pecas p ON iv.id_peca = p.id;
+
+
+
+
+

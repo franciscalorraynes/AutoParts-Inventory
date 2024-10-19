@@ -6,7 +6,7 @@ import com.autoparts.controle.estoque.modelo.dominio.Usuario;
 
 public class UsuarioTest {
     public static void main(String[] args) {
-        Usuario usuario = new Usuario(null, "Wesley Fernandes", "fernandes", "12345", "84981751522", Perfil.PADRAO, null, null);
+        Usuario usuario = new Usuario(null, "Francisca Lorrayne", "franciscalorrayne", "980423", "84981751522", Perfil.ADM, null, null);
 
 
         
