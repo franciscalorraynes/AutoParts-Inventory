@@ -1,4 +1,4 @@
-# AutoParts Inventory (API)
+# AutoParts Inventory
 
 ---
 
