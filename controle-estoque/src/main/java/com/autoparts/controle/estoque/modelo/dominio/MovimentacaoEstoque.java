@@ -83,6 +83,19 @@ public class MovimentacaoEstoque {
     public void setFornecedor(Fornecedor fornecedor) {
         this.fornecedor = fornecedor;
     }
+    
+    @Override
+public String toString() {
+    return String.format("ID: %d, Peça: %s, Tipo: %s, Quantidade: %d, Data: %s, Venda: %s, Fornecedor: %s",
+        id,
+        pecas != null ? pecas.getId() : "N/A", // Exibir ID da peça
+        tipoMovimentacao,
+        quantidade,
+        dataMovimentacao,
+        venda != null ? venda.getId() : "N/A", // Exibir ID da venda
+        fornecedor != null ? fornecedor.getId() : "N/A" // Exibir ID do fornecedor
+    );
+}
 
    
 }

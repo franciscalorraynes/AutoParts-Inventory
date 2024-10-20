@@ -65,9 +65,7 @@ public class MovimentacaoEstoqueDao {
         return String.format("Erro: %s", e.getMessage());
     }
 }
-
-
-    public List<MovimentacaoEstoque> buscarTodas() {
+     public List<MovimentacaoEstoque> buscarTodas() {
         String sql = "SELECT * FROM movimentacaoEstoque";
         List<MovimentacaoEstoque> movimentacoes = new ArrayList<>();
         try {
@@ -81,36 +79,68 @@ public class MovimentacaoEstoqueDao {
         }
         return movimentacoes;
     }
+    
+      private MovimentacaoEstoque getMovimentacaoEstoque(ResultSet result) throws SQLException {
+        MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
+        movimentacao.setId(result.getLong("id"));
 
-    private MovimentacaoEstoque getMovimentacaoEstoque(ResultSet result) throws SQLException {
-    MovimentacaoEstoque movimentacao = new MovimentacaoEstoque();
-    movimentacao.setId(result.getLong("id"));
+        Pecas pecas = new Pecas(); 
+        pecas.setId(result.getLong("id_peca"));
+        pecas.setNome(buscarNomePecaPorId(pecas.getId())); // Preenche o nome da peça
+        movimentacao.setPecas(pecas);
 
-    Pecas pecas = new Pecas(); 
-    pecas.setId(result.getLong("id_peca"));
-    movimentacao.setPecas(pecas);
+        movimentacao.setTipoMovimentacao(result.getString("tipo_movimentacao"));
+        movimentacao.setQuantidade(result.getInt("quantidade"));
+        movimentacao.setDataMovimentacao(result.getTimestamp("data_movimentacao").toLocalDateTime());
 
-    movimentacao.setTipoMovimentacao(result.getString("tipo_movimentacao"));
-    movimentacao.setQuantidade(result.getInt("quantidade"));
-    movimentacao.setDataMovimentacao(result.getTimestamp("data_movimentacao").toLocalDateTime()); // Corrigido
+        Long idVenda = result.getObject("id_venda", Long.class);
+        if (idVenda != null) {
+            Venda venda = new Venda(); 
+            venda.setId(idVenda);
+            movimentacao.setVenda(venda);
+        }
 
-    Long idVenda = result.getObject("id_venda", Long.class);
-    if (idVenda != null) {
-        Venda venda = new Venda(); 
-        venda.setId(idVenda);
-        movimentacao.setVenda(venda);
+        Long idFornecedor = result.getObject("id_fornecedor", Long.class);
+        if (idFornecedor != null) {
+            Fornecedor fornecedor = new Fornecedor(); 
+            fornecedor.setId(idFornecedor);
+            fornecedor.setNome(buscarNomeFornecedorPorId(fornecedor.getId())); // Preenche o nome do fornecedor
+            movimentacao.setFornecedor(fornecedor);
+        }
+
+        return movimentacao;
     }
-
-    Long idFornecedor = result.getObject("id_fornecedor", Long.class);
-    if (idFornecedor != null) {
-        Fornecedor fornecedor = new Fornecedor(); 
-        fornecedor.setId(idFornecedor);
-        movimentacao.setFornecedor(fornecedor);
+      
+      
+      private String buscarNomePecaPorId(Long idPeca) {
+        String sql = "SELECT nome FROM pecas WHERE id = ?";
+        try (PreparedStatement stmt = conexao.obterConexao().prepareStatement(sql)) {
+            stmt.setLong(1, idPeca);
+            ResultSet result = stmt.executeQuery();
+            if (result.next()) {
+                return result.getString("nome");
+            }
+        } catch (SQLException e) {
+            System.out.println(String.format("Erro ao buscar nome da peça: %s", e.getMessage()));
+        }
+        return null; // Ou uma string padrão, como "Desconhecido"
     }
-
-    return movimentacao;
-}
-
+      
+      private String buscarNomeFornecedorPorId(Long idFornecedor) {
+        String sql = "SELECT nome FROM fornecedor WHERE id = ?";
+        try (PreparedStatement stmt = conexao.obterConexao().prepareStatement(sql)) {
+            stmt.setLong(1, idFornecedor);
+            ResultSet result = stmt.executeQuery();
+            if (result.next()) {
+                return result.getString("nome");
+            }
+        } catch (SQLException e) {
+            System.out.println(String.format("Erro ao buscar nome do fornecedor: %s", e.getMessage()));
+        }
+        return null; // Ou uma string padrão, como "Desconhecido"
+    }
+      
+      
 
     public MovimentacaoEstoque buscarPorId(Long id) {
         String sql = "select * from movimentacaoEstoque where id = ?";

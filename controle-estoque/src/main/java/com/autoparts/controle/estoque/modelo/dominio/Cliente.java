@@ -57,6 +57,6 @@ public class Cliente {
     }   
     @Override
     public String toString() {
-        return nome;  // Isso fará com que o JComboBox mostre apenas o nome do cliente
+        return nome;  // JComboBox 
     }
 }

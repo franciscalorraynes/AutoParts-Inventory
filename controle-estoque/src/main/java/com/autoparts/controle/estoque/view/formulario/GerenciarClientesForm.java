@@ -14,7 +14,7 @@ public class GerenciarClientesForm extends JPanel {
 
     private DefaultTableModel tabelaModelo;
     private JButton botaoAdicionar;
-    private JButton botaoSalvarAlteracoes; // Novo botão para salvar alterações
+    private JButton botaoSalvarAlteracoes; 
     private boolean editandoCliente = false; // Flag para controle de edição
 
     public GerenciarClientesForm() {
@@ -22,7 +22,7 @@ public class GerenciarClientesForm extends JPanel {
 
         JLabel label = new JLabel("Gerenciar Clientes");
         botaoAdicionar = new JButton("Adicionar Cliente");
-        botaoSalvarAlteracoes = new JButton("Salvar Alterações"); // Novo botão
+        botaoSalvarAlteracoes = new JButton("Salvar Alterações"); 
         JButton botaoRemover = new JButton("Remover Cliente");
         JButton botaoEditar = new JButton("Editar Cliente");
         JButton botaoListar = new JButton("Listar Clientes");
@@ -44,7 +44,7 @@ public class GerenciarClientesForm extends JPanel {
         labelTelefone.setBounds(30, 140, 70, 25);
 
         botaoAdicionar.setBounds(30, 180, 150, 25);
-        botaoSalvarAlteracoes.setBounds(30, 220, 150, 25); // Novo botão
+        botaoSalvarAlteracoes.setBounds(30, 220, 150, 25); 
         botaoRemover.setBounds(30, 260, 150, 25);
         botaoEditar.setBounds(30, 300, 150, 25);
         botaoListar.setBounds(30, 340, 150, 25);
@@ -70,7 +70,7 @@ public class GerenciarClientesForm extends JPanel {
         add(botaoEditar);
         add(botaoListar);
 
-        // Lógica para adicionar cliente
+        //adicionar cliente
         botaoAdicionar.addActionListener(e -> {
             String nome = campoNome.getText().trim();
             String endereco = campoEndereco.getText().trim();

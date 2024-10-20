@@ -594,7 +594,6 @@ public class VendaDao {
         }
     }
 */
-   /*
     public Long editar(Venda venda) throws SQLException {
     // Exemplo de lógica para editar a venda existente
     String sql = "UPDATE venda SET id_cliente=?, id_usuario=?, data_venda=?, valor_total=?, desconto=?, troco=?, observacoes=? WHERE id = ?";
@@ -610,45 +609,96 @@ public class VendaDao {
         return venda.getId(); // Retorna o ID da venda que foi editada
     }
 }
-*/
-   public Long editar(Venda venda) throws SQLException {
+
+   /*
+   
+public Long editar(Venda venda) throws SQLException {
     String sql = "UPDATE venda SET id_cliente=?, id_usuario=?, data_venda=?, valor_total=?, desconto=?, troco=?, observacoes=? WHERE id = ?";
 
     try (PreparedStatement stmt = conexao.obterConexao().prepareStatement(sql)) {
-        // Preencher os valores do PreparedStatement usando os dados da venda
-        
-        // Define o ID do cliente
-        stmt.setLong(1, venda.getCliente().getId()); 
+        // Atualizar os dados básicos da venda
+        stmt.setLong(1, venda.getCliente().getId()); // ID do cliente
+        stmt.setLong(2, venda.getUsuario().getId()); // ID do usuário
+        stmt.setTimestamp(3, Timestamp.valueOf(venda.getDataVenda())); // Data da venda
+        stmt.setBigDecimal(4, venda.getTotalDaVenda()); // Valor total
+        stmt.setBigDecimal(5, venda.getDesconto()); // Desconto
+        stmt.setBigDecimal(6, venda.getTroco()); // Troco
+        stmt.setString(7, venda.getObservacao()); // Observações
+        stmt.setLong(8, venda.getId()); // ID da venda a ser editada
 
-        // Define o ID do usuário responsável pela venda
-        stmt.setLong(2, venda.getUsuario().getId()); 
+        int rowsAffected = stmt.executeUpdate();
+        if (rowsAffected == 0) {
+            throw new SQLException("Erro ao editar venda: nenhuma linha foi afetada.");
+        }
 
-        // Define a data da venda
-        stmt.setTimestamp(3, java.sql.Timestamp.valueOf(venda.getDataVenda())); 
+        // Agora atualizamos os itens da venda
+        atualizarItensVenda(venda);
 
-
-        // Define o valor total da venda
-        stmt.setBigDecimal(4, venda.getTotalDaVenda()); 
-
-        // Define o desconto aplicado, se houver
-        stmt.setBigDecimal(5, venda.getDesconto()); 
-
-        // Define o troco, se aplicável
-        stmt.setBigDecimal(6, venda.getTroco()); 
-
-        // Define observações sobre a venda, se houver
-        stmt.setString(7, venda.getObservacao()); 
-
-        // Define o ID da venda a ser editada (no WHERE)
-        stmt.setLong(8, venda.getId()); 
-
-        // Executa a atualização
-        stmt.executeUpdate();
-
-        // Retorna o ID da venda que foi editada
-        return venda.getId();
+        return venda.getId(); // Retorna o ID da venda editada
     }
 }
+
+*/
+private void atualizarItensVenda(Venda venda) throws SQLException {
+    // Buscar os itens de venda atuais no banco de dados
+    List<ItemVenda> itensExistentes = buscarItensPorVendaId(venda.getId().intValue());
+
+    // Atualizar ou adicionar novos itens
+    for (ItemVenda itemNovo : venda.getItensVenda()) {
+        boolean itemExiste = false;
+
+        for (ItemVenda itemExistente : itensExistentes) {
+            if (itemNovo.getId() != null && itemNovo.getId().equals(itemExistente.getId())) {
+                // Item já existe, então deve ser atualizado
+                atualizarItemVenda(itemNovo);
+                itemExiste = true;
+                break;
+            }
+        }
+
+        if (!itemExiste) {
+            // Se o item não existe, devemos adicioná-lo
+            salvarItemVenda(venda.getId(), itemNovo);
+        }
+    }
+
+    // Remover itens que não estão mais associados à venda
+    for (ItemVenda itemExistente : itensExistentes) {
+        boolean itemFoiRemovido = true;
+
+        for (ItemVenda itemNovo : venda.getItensVenda()) {
+            if (itemExistente.getId().equals(itemNovo.getId())) {
+                itemFoiRemovido = false;
+                break;
+            }
+        }
+
+        if (itemFoiRemovido) {
+            deletarItemVenda(itemExistente.getId());
+        }
+    }
+}
+private void atualizarItemVenda(ItemVenda item) throws SQLException {
+    String sql = "UPDATE item_venda SET id_peca=?, quantidade=?, preco_unitario=? WHERE id=?";
+
+    try (PreparedStatement stmt = conexao.obterConexao().prepareStatement(sql)) {
+        stmt.setLong(1, item.getPecas().getId());
+        stmt.setInt(2, item.getQuantidade());
+        stmt.setBigDecimal(3, item.getPrecoUnitario());
+        stmt.setLong(4, item.getId());
+        stmt.executeUpdate();
+    }
+}
+
+private void deletarItemVenda(Long id) throws SQLException {
+    String sql = "DELETE FROM item_venda WHERE id=?";
+
+    try (PreparedStatement stmt = conexao.obterConexao().prepareStatement(sql)) {
+        stmt.setLong(1, id);
+        stmt.executeUpdate();
+    }
+}
+
 
 
     private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, Venda venda) throws SQLException {
@@ -845,7 +895,7 @@ private List<ItemVenda> buscarItensPorVendaId(int idVenda) {
         stmt.setLong(2, item.getPecas().getId());
         stmt.setInt(3, item.getQuantidade());
         stmt.setBigDecimal(4, item.getPrecoUnitario());
-        stmt.executeUpdate();
+        stmt.executeUpdate();   
     }
 }
 

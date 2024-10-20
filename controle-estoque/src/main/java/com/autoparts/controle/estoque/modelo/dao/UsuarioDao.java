@@ -15,6 +15,7 @@ import java.util.List;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 public class UsuarioDao {
+
     private final Conexao conexao;
 
     public UsuarioDao() {
@@ -27,7 +28,7 @@ public class UsuarioDao {
 
     private String adicionar(Usuario usuario) {
         String sql = "INSERT INTO usuario(nome, usuario, senha, telefone, perfil, estado) VALUES (?,?,?,?,?,?)";
-        
+
         Usuario usuarioTemp = buscarUsuarioPeloNome(usuario.getNomeUsuario());
         if (usuarioTemp != null) {
             throw new NegocioException(String.format("Erro: username %s já existe no banco de dados", usuario.getNomeUsuario()));
@@ -66,18 +67,18 @@ public class UsuarioDao {
 
     private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, Usuario usuario) throws SQLException {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    String senhaCrypto = passwordEncoder.encode(usuario.getSenha());
+        String senhaCrypto = passwordEncoder.encode(usuario.getSenha());
 
-    preparedStatement.setString(1, usuario.getNome());  // Nome completo do usuário
-    preparedStatement.setString(2, usuario.getNomeUsuario());  // Nome de login
-    preparedStatement.setString(3, senhaCrypto);  // Senha criptografada
-    preparedStatement.setString(4, usuario.getTelefone());  // Telefone
-    preparedStatement.setString(5, usuario.getPerfil().name());  // Perfil (ADM ou PADRAO)
-    preparedStatement.setBoolean(6, usuario.isEstado());  // Estado (ativo ou inativo)
+        preparedStatement.setString(1, usuario.getNome());  // Nome completo do usuário
+        preparedStatement.setString(2, usuario.getNomeUsuario());  // Nome de login
+        preparedStatement.setString(3, senhaCrypto);  // Senha criptografada
+        preparedStatement.setString(4, usuario.getTelefone());  // Telefone
+        preparedStatement.setString(5, usuario.getPerfil().name());  // Perfil (ADM ou PADRAO)
+        preparedStatement.setBoolean(6, usuario.isEstado());  // Estado (ativo ou inativo)
 
-    if (usuario.getId() != null) {
-        preparedStatement.setLong(7, usuario.getId());  // ID para edição
-    }
+        if (usuario.getId() != null) {
+            preparedStatement.setLong(7, usuario.getId());  // ID para edição
+        }
     }
 
     public List<Usuario> buscarUsuarios() {
@@ -153,7 +154,4 @@ public class UsuarioDao {
         return passwordEncoder.matches(senhaInformada, senhaSalva);
     }
 
-    
-    
-    
 }

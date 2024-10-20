@@ -27,55 +27,59 @@ public class MenuPrincipal extends JFrame {
     }
 
     private void inicializarComponentes() {
-         setTitle("AutoParts");
+        setTitle("AutoParts");
 
-    JPanel panelIcones = new JPanel();
-    panelIcones.setLayout(new BoxLayout(panelIcones, BoxLayout.Y_AXIS));
-    panelIcones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Margem externa
+        JPanel panelIcones = new JPanel();
+        panelIcones.setLayout(new BoxLayout(panelIcones, BoxLayout.Y_AXIS));
+        panelIcones.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10)); // Margem externa
 
-    JButton gerenciarVendas = createIconButton("Gerenciar Vendas", "carrinho-de-compras.png");
-    JButton gerenciarClientes = createIconButton("Gerenciar Clientes", "cliente.png");
-    JButton gerenciarPecas = createIconButton("Gerenciar Peças", "ferramentas.png");
-    JButton gerenciarEstoque = createIconButton("Estoque", "estoque.png");
-    JButton listarRelatorios = createIconButton("Relatórios", "caneta.png");
-    JButton sair = createIconButton("Sair", "sair.png");
+        JButton gerenciarVendas = createIconButton("Gerenciar Vendas", "carrinho-de-compras.png");
+        JButton gerenciarClientes = createIconButton("Gerenciar Clientes", "cliente.png");
+        JButton gerenciarPecas = createIconButton("Gerenciar Peças", "ferramentas.png");
+        JButton listarEstoque = createIconButton("Listar Estoque", "estoque.png"); // Novo botão
+        JButton listarRelatorios = createIconButton("Relatórios", "caneta.png");
+        JButton gerenciarOrdemServico = createIconButton("Gerenciar OS", "ordem-de-servico.png");
+        JButton sair = createIconButton("Sair", "sair.png");
 
-    panelIcones.add(gerenciarVendas);
-    panelIcones.add(Box.createVerticalStrut(10)); // Espaçamento entre os botões
-    panelIcones.add(gerenciarClientes);
-    panelIcones.add(Box.createVerticalStrut(10));
-    panelIcones.add(gerenciarPecas);
-    panelIcones.add(Box.createVerticalStrut(10));
-    panelIcones.add(gerenciarEstoque);
-    panelIcones.add(Box.createVerticalStrut(10));
-    panelIcones.add(listarRelatorios);
-    panelIcones.add(Box.createVerticalStrut(20)); // Espaço extra antes do botão de "Sair"
-    panelIcones.add(sair);
+        panelIcones.add(gerenciarVendas);
+        panelIcones.add(Box.createVerticalStrut(10)); // Espaçamento entre os botões
+        panelIcones.add(gerenciarClientes);
+        panelIcones.add(Box.createVerticalStrut(10));
+        panelIcones.add(gerenciarPecas);
+        panelIcones.add(Box.createVerticalStrut(10));
+        panelIcones.add(Box.createVerticalStrut(10));
+        panelIcones.add(listarEstoque); // Adiciona o botão de listar estoque
+        panelIcones.add(Box.createVerticalStrut(10));
+        panelIcones.add(listarRelatorios);
+        panelIcones.add(Box.createVerticalStrut(10));
+        panelIcones.add(gerenciarOrdemServico);  
+        panelIcones.add(Box.createVerticalStrut(20)); // Espaço extra antes do botão de "Sair"
+        panelIcones.add(sair);
 
-    add(panelIcones, BorderLayout.WEST);
+        add(panelIcones, BorderLayout.WEST);
 
-    cardLayout = new CardLayout();
-    panelPrincipal = new JPanel(cardLayout);
-    panelPrincipal.setBackground(Color.WHITE); // Fundo branco
-    panelPrincipal.add(new JPanel(), "HOME");
+        cardLayout = new CardLayout();
+        panelPrincipal = new JPanel(cardLayout);
+        panelPrincipal.setBackground(Color.WHITE); // Fundo branco
+        panelPrincipal.add(new JPanel(), "HOME");
 
-    add(panelPrincipal, BorderLayout.CENTER);
+        add(panelPrincipal, BorderLayout.CENTER);
 
-    gerenciarVendas.addActionListener(e -> trocarTela("GERENCIAR_VENDAS"));
-    listarRelatorios.addActionListener(e -> trocarTela("LISTAR_RELATORIOS"));
+        gerenciarVendas.addActionListener(e -> trocarTela("GERENCIAR_VENDAS"));
+        listarRelatorios.addActionListener(e -> trocarTela("LISTAR_RELATORIOS"));
 
-    gerenciarClientes.addActionListener(e -> {
-        if (usuarioAutenticado.getPerfil() == Perfil.ADM) {
-            trocarTela("GERENCIAR_CLIENTES");
-        } else {
-            JOptionPane.showMessageDialog(this, "Acesso negado! Apenas administradores podem gerenciar clientes.");
-        }
-    });
+        gerenciarClientes.addActionListener(e -> {
+            if (usuarioAutenticado.getPerfil() == Perfil.ADM) {
+                trocarTela("GERENCIAR_CLIENTES");
+            } else {
+                JOptionPane.showMessageDialog(this, "Acesso negado! Apenas administradores podem gerenciar clientes.");
+            }
+        });
 
-    gerenciarPecas.addActionListener(e -> trocarTela("GERENCIAR_PECAS"));
-    gerenciarEstoque.addActionListener(e -> trocarTela("GERENCIAR_ESTOQUE"));
-    sair.addActionListener(e -> System.exit(0));
-    
+        gerenciarPecas.addActionListener(e -> trocarTela("GERENCIAR_PECAS"));
+        listarEstoque.addActionListener(e -> trocarTela("LISTAR_ESTOQUE")); // Adiciona a ação do botão listar estoque
+        gerenciarOrdemServico.addActionListener(e -> trocarTela("GERENCIAR_ORDEM_SERVICO")); 
+        sair.addActionListener(e -> System.exit(0));
     }
 
     private JButton createIconButton(String text, String iconName) {
@@ -99,49 +103,52 @@ public class MenuPrincipal extends JFrame {
     }
 
     private void trocarTela(String nomeTela) {
-    Component componenteExistente = null;
-    
-    for (Component component : panelPrincipal.getComponents()) {
-        if (component.getName() != null && component.getName().equals(nomeTela)) {
-            componenteExistente = component;
-            break;
-        }
-    }
-    
-    if (componenteExistente == null) {
-        switch (nomeTela) {
-            case "GERENCIAR_VENDAS":
-                GerenciarVendasForm vendasForm = new GerenciarVendasForm(usuarioAutenticado);
-                vendasForm.setName("GERENCIAR_VENDAS");
-                panelPrincipal.add(vendasForm, "GERENCIAR_VENDAS");
-                break;
-            case "LISTAR_RELATORIOS":
-                ListarRelatoriosForm relatoriosForm = new ListarRelatoriosForm();
-                relatoriosForm.setName("LISTAR_RELATORIOS");
-                panelPrincipal.add(relatoriosForm, "LISTAR_RELATORIOS");
-                break;
-            case "GERENCIAR_CLIENTES":
-                GerenciarClientesForm clientesForm = new GerenciarClientesForm();
-                clientesForm.setName("GERENCIAR_CLIENTES");
-                panelPrincipal.add(clientesForm, "GERENCIAR_CLIENTES");
-                break;
-            case "GERENCIAR_PECAS":
-                GerenciarPecasForm pecasForm = new GerenciarPecasForm();
-                pecasForm.setName("GERENCIAR_PECAS");
-                panelPrincipal.add(pecasForm, "GERENCIAR_PECAS");
-                break;
-            case "GERENCIAR_ESTOQUE":  // Adicione esta parte
-                GerenciarEstoqueForm estoqueForm = new GerenciarEstoqueForm();
-                estoqueForm.setName("GERENCIAR_ESTOQUE");
-                panelPrincipal.add(new GerenciarEstoqueForm(), "GERENCIAR_ESTOQUE");
-            break;
+        Component componenteExistente = null;
 
-            default:
+        for (Component component : panelPrincipal.getComponents()) {
+            if (component.getName() != null && component.getName().equals(nomeTela)) {
+                componenteExistente = component;
                 break;
+            }
         }
+
+        if (componenteExistente == null) {
+            switch (nomeTela) {
+                case "GERENCIAR_VENDAS":
+                    GerenciarVendasForm vendasForm = new GerenciarVendasForm(usuarioAutenticado);
+                    vendasForm.setName("GERENCIAR_VENDAS");
+                    panelPrincipal.add(vendasForm, "GERENCIAR_VENDAS");
+                    break;
+                case "LISTAR_RELATORIOS":
+                    ListarRelatoriosForm relatoriosForm = new ListarRelatoriosForm();
+                    relatoriosForm.setName("LISTAR_RELATORIOS");
+                    panelPrincipal.add(relatoriosForm, "LISTAR_RELATORIOS");
+                    break;
+                case "GERENCIAR_CLIENTES":
+                    GerenciarClientesForm clientesForm = new GerenciarClientesForm();
+                    clientesForm.setName("GERENCIAR_CLIENTES");
+                    panelPrincipal.add(clientesForm, "GERENCIAR_CLIENTES");
+                    break;
+                case "GERENCIAR_PECAS":
+                    GerenciarPecasForm pecasForm = new GerenciarPecasForm();
+                    pecasForm.setName("GERENCIAR_PECAS");
+                    panelPrincipal.add(pecasForm, "GERENCIAR_PECAS");
+                    break;
+                case "LISTAR_ESTOQUE": // Novo caso para listar estoque
+                    ListarEstoqueForm listarEstoqueForm = new ListarEstoqueForm();
+                    listarEstoqueForm.setName("LISTAR_ESTOQUE");
+                    panelPrincipal.add(listarEstoqueForm, "LISTAR_ESTOQUE");
+                    break;
+                case "GERENCIAR_ORDEM_SERVICO":
+                    GerenciarOrdemServicoForm ordemServicoForm = new GerenciarOrdemServicoForm();
+                    ordemServicoForm.setName("GERENCIAR_ORDEM_SERVICO");
+                    panelPrincipal.add(ordemServicoForm, "GERENCIAR_ORDEM_SERVICO");
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        cardLayout.show(panelPrincipal, nomeTela);
     }
-    
-    cardLayout.show(panelPrincipal, nomeTela);
 }
-
-} 

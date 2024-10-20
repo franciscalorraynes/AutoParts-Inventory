@@ -95,6 +95,6 @@ public class Pecas {
     
  @Override
     public String toString() {
-        return nome;  // Isso fará com que o JComboBox mostre apenas o nome da peça
+        return nome;  // JComboBox 
     }
 }

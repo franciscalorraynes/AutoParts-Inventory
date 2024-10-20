@@ -1,8 +1,8 @@
-
 package com.autoparts.controle.estoque.modelo.dao;
 
 import com.autoparts.controle.estoque.modelo.conexao.ConexaoMySql;
 import com.autoparts.controle.estoque.modelo.conexao.Conexao;
+import com.autoparts.controle.estoque.modelo.dominio.Cliente;
 import com.autoparts.controle.estoque.modelo.dominio.OrdemServico;
 import com.autoparts.controle.estoque.modelo.exception.NegocioException;
 import java.sql.Connection;
@@ -17,6 +17,7 @@ import java.sql.SQLException;
  * @author Samira
  */
 public class OrdemServicoDao {
+
     private final Conexao conexao;
 
     public OrdemServicoDao() {
@@ -27,7 +28,7 @@ public class OrdemServicoDao {
         return Ordemservico.getId() == null ? adicionar(Ordemservico) : editar(Ordemservico);
     }
 
-    private String adicionar(OrdemServico Ordemservico) {
+    public String adicionar(OrdemServico Ordemservico) {
         String sql = "INSERT INTO ordemServico(data_os, equipamento, defeito, servicoPrestado, funcionarioResponsavel, valor, idCliente) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
         OrdemServico usuarioTemp = buscarOrdemServicoPeloNome(Ordemservico.getServicoPrestado());
@@ -56,33 +57,22 @@ public class OrdemServicoDao {
         }
     }
 
-    private String editar(OrdemServico Ordemservico) {
-        String sql = "INSERT INTO ordemServico (data_os, equipamento, defeito, servicoPrestado, funcionarioResponsavel, valor, idCliente) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    public String editar(OrdemServico ordemServico) {
+        String sql = "UPDATE ordemServico SET data_os = ?, equipamento = ?, defeito = ?, servicoPrestado = ?, funcionarioResponsavel = ?, valor = ?, idCliente = ? WHERE idOs = ?";
 
         try {
             PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
-            preencherValoresDePreparedStatement(preparedStatement, Ordemservico);
+            preencherValoresDePreparedStatement(preparedStatement, ordemServico);
+            preparedStatement.setLong(8, ordemServico.getId()); // Define o ID da ordem de serviço a ser editada
             int resultado = preparedStatement.executeUpdate();
-            return resultado == 1 ? "Ordem de servico editado com sucesso!"
-                    : "Nao foi possivel editar o ordem de servico";
+            return resultado == 1 ? "Ordem de serviço editada com sucesso!" : "Não foi possível editar a ordem de serviço.";
         } catch (SQLException e) {
             return String.format("Erro: %s", e.getMessage());
         }
     }
 
-    private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, OrdemServico Ordemservico)
-            throws SQLException {
+    private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, OrdemServico Ordemservico) throws SQLException {
 
-        // Debug: Verifique os valores que estão sendo passados
-        System.out.println("Equipamento: " + Ordemservico.getEquipamento());
-        System.out.println("Defeito: " + Ordemservico.getDefeito());
-        System.out.println("Serviço Prestado: " + Ordemservico.getServicoPrestado());
-        System.out.println("Funcionário Responsável: " + Ordemservico.getFuncionarioResponsavel());
-        System.out.println("Valor: " + Ordemservico.getValor());
-        System.out.println("Cliente ID: " + Ordemservico.getCliente().getId());
-        System.out.println("Data OS: " + Ordemservico.getDataOs()); // Adicione essa linha
-
-        // Setando os valores no PreparedStatement
         preparedStatement.setTimestamp(1, java.sql.Timestamp.valueOf(Ordemservico.getDataOs())); // Data e Hora
         preparedStatement.setString(2, Ordemservico.getEquipamento()); // Equipamento
         preparedStatement.setString(3, Ordemservico.getDefeito()); // Defeito
@@ -93,52 +83,78 @@ public class OrdemServicoDao {
     }
 
     public List<OrdemServico> buscarOrdemServico() {
-        String sql = "SELECT * FROM ordemServico";
-        List<OrdemServico> Ordemservico = new ArrayList<>();
+        String sql = "SELECT os.idOs, os.data_os, os.equipamento, os.defeito, os.servicoPrestado, os.funcionarioResponsavel, os.valor,\n"
+                + "       c.id AS cliente_id, c.nome AS cliente_nome\n"
+                + "FROM ordemServico os\n"
+                + "JOIN cliente c ON os.idCliente = c.id;";
+        List<OrdemServico> ordemServicos = new ArrayList<>();
 
-        // Utilizando try-with-resources para fechar automaticamente os recursos
-        try (Connection conn = conexao.obterConexao();
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ResultSet result = stmt.executeQuery()) {
+        try (Connection conn = conexao.obterConexao(); PreparedStatement stmt = conn.prepareStatement(sql); ResultSet result = stmt.executeQuery()) {
 
-            // Percorrendo os resultados e populando a lista de clientes
             while (result.next()) {
-                Ordemservico.add(getOrdemServico(result));
+                OrdemServico ordemServico = getOrdemServico(result);
+                ordemServicos.add(ordemServico);
             }
 
         } catch (SQLException e) {
             System.out.println("Erro ao buscar ordem de servico: " + e.getMessage());
         }
 
-        return Ordemservico;
+        return ordemServicos;
     }
 
     private OrdemServico getOrdemServico(ResultSet result) throws SQLException {
-        OrdemServico Ordemservico = new OrdemServico();
-        Ordemservico.setId(result.getLong("id"));
-        Ordemservico.setDataOs(result.getTimestamp("dataOs").toLocalDateTime());
-        Ordemservico.setEquipamento(result.getString("equipamento"));
-        Ordemservico.setDefeito(result.getString("defeito"));
-        Ordemservico.setServicoPrestado(result.getString("servicoPrestado"));
-        Ordemservico.setFuncionarioResponsavel(result.getString("funcionarioResponsavel"));
-        Ordemservico.setValor(result.getBigDecimal("valor")); // Corrigido aqui
-        return Ordemservico;
+        OrdemServico ordemServico = new OrdemServico();
+        ordemServico.setId(result.getLong("idOs"));
+        ordemServico.setDataOs(result.getTimestamp("data_os").toLocalDateTime());
+        ordemServico.setEquipamento(result.getString("equipamento"));
+        ordemServico.setDefeito(result.getString("defeito"));
+        ordemServico.setServicoPrestado(result.getString("servicoPrestado"));
+        ordemServico.setFuncionarioResponsavel(result.getString("funcionarioResponsavel"));
+        ordemServico.setValor(result.getBigDecimal("valor"));
+
+        // Agora com os aliases
+        Cliente cliente = new Cliente();
+        cliente.setId(result.getLong("cliente_id"));  // ID do cliente, que é a chave estrangeira
+        cliente.setNome(result.getString("cliente_nome"));  // Nome do cliente recuperado da tabela cliente
+        ordemServico.setCliente(cliente);  // Associando o cliente à ordem de serviço
+
+        return ordemServico;
     }
 
     public OrdemServico buscarOrdemServicoPeloId(Long id) {
-        String sql = "select * from ordemServico where idOs = ?";
-        try {
-            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
-            preparedStatement.setLong(1, id);
-            ResultSet result = preparedStatement.executeQuery();
+        String sql = "SELECT os.*, c.nome AS nomeCliente "
+                + "FROM OrdemServico os "
+                + "JOIN Cliente c ON os.idCliente = c.id "
+                + "WHERE os.idOs = ?";
+        OrdemServico ordemServico = null;
 
-            if (result.next()) {
-                return getOrdemServico(result);
+        try (Connection conn = conexao.obterConexao(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setLong(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                ordemServico = new OrdemServico();
+                // Ajuste para usar o nome correto do campo idOs
+                ordemServico.setId(rs.getLong("idOs")); // Aqui ajusta para "idOs"
+                ordemServico.setEquipamento(rs.getString("equipamento"));
+                ordemServico.setDefeito(rs.getString("defeito"));
+                ordemServico.setServicoPrestado(rs.getString("servicoPrestado"));
+                ordemServico.setFuncionarioResponsavel(rs.getString("funcionarioResponsavel"));
+                ordemServico.setValor(rs.getBigDecimal("valor"));
+                ordemServico.setDataOs(rs.getTimestamp("data_os").toLocalDateTime());
+
+                // Criar o objeto Cliente associado
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getLong("idCliente")); // id do cliente na tabela OrdemServico
+                cliente.setNome(rs.getString("nomeCliente")); // Usar o alias criado na consulta SQL
+                ordemServico.setCliente(cliente);
             }
         } catch (SQLException e) {
             System.out.println(String.format("Erro:  %s", e.getMessage()));
         }
-        return null;
+
+        return ordemServico;
     }
 
     public OrdemServico buscarOrdemServicoPeloNome(String servicoPrestado) {
@@ -155,6 +171,41 @@ public class OrdemServicoDao {
             System.out.println(String.format("Erro:  %s", e.getMessage()));
         }
         return null;
+    }
+
+    public OrdemServico buscarOrdemServicoPorNomeCliente(String nomeCliente) {
+        String sql = "SELECT os.*, c.nome AS nomeCliente "
+                + "FROM OrdemServico os "
+                + "JOIN Cliente c ON os.idCliente = c.id "
+                + "WHERE c.nome LIKE ?";
+        OrdemServico ordemServico = null;
+
+        try (Connection conn = conexao.obterConexao(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, "%" + nomeCliente + "%"); // Permitir pesquisa parcial
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                ordemServico = new OrdemServico();
+                // Ajuste para usar o nome correto do campo idOs
+                ordemServico.setId(rs.getLong("idOs")); // Aqui ajusta para "idOs"
+                ordemServico.setEquipamento(rs.getString("equipamento"));
+                ordemServico.setDefeito(rs.getString("defeito"));
+                ordemServico.setServicoPrestado(rs.getString("servicoPrestado"));
+                ordemServico.setFuncionarioResponsavel(rs.getString("funcionarioResponsavel"));
+                ordemServico.setValor(rs.getBigDecimal("valor"));
+                ordemServico.setDataOs(rs.getTimestamp("data_os").toLocalDateTime());
+
+                // Criar o objeto Cliente associado
+                Cliente cliente = new Cliente();
+                cliente.setId(rs.getLong("idCliente")); // id do cliente na tabela OrdemServico
+                cliente.setNome(rs.getString("nome")); // Usar o alias criado na consulta SQL
+                ordemServico.setCliente(cliente);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return ordemServico;
     }
 
     public String deletarPeloId(Long id) {

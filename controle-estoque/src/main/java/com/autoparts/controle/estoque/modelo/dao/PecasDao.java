@@ -27,40 +27,39 @@ public class PecasDao {
     }
 
     private String adicionar(Pecas pecas) {
-    String sql = "INSERT INTO pecas (nome, descricao, quantidade, preco, id_fornecedor) VALUES (?, ?, ?, ?, ?)";
-    Pecas pecasTemp = buscarPecasPeloNome(pecas.getNome());
-    if (pecasTemp != null) {
-        return String.format("Erro: peca %s ja existe no banco de dados", pecas.getNome());
-    }
-    
-    try (PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-        preencherValoresDePreparedStatement(preparedStatement, pecas);
-        // Adiciona o ID do fornecedor
-        if (pecas.getFornecedor() != null) {
-            preparedStatement.setLong(5, pecas.getFornecedor().getId());
-        } else {
-            preparedStatement.setNull(5, java.sql.Types.BIGINT); // Se o fornecedor não existir, define como NULL
+        String sql = "INSERT INTO pecas (nome, descricao, quantidade, preco, id_fornecedor) VALUES (?, ?, ?, ?, ?)";
+        Pecas pecasTemp = buscarPecasPeloNome(pecas.getNome());
+        if (pecasTemp != null) {
+            return String.format("Erro: peca %s ja existe no banco de dados", pecas.getNome());
         }
-        
-        int resultado = preparedStatement.executeUpdate();
-        if (resultado == 1) {
-            try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
-                if (generatedKeys.next()) {
-                    pecas.setId(generatedKeys.getLong(1)); // Atribui o ID gerado
-                }
-            }
-            return "Peca adicionada com sucesso!";
-        } else {
-            return "Nao foi possível adicionar a peca";
-        }
-    } catch (SQLException e) {
-        return String.format("Erro: %s", e.getMessage());
-    }
-}
 
+        try (PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
+            preencherValoresDePreparedStatement(preparedStatement, pecas);
+            // Adiciona o ID do fornecedor
+            if (pecas.getFornecedor() != null) {
+                preparedStatement.setLong(5, pecas.getFornecedor().getId());
+            } else {
+                preparedStatement.setNull(5, java.sql.Types.BIGINT); // Se o fornecedor não existir, define como NULL
+            }
+
+            int resultado = preparedStatement.executeUpdate();
+            if (resultado == 1) {
+                try (ResultSet generatedKeys = preparedStatement.getGeneratedKeys()) {
+                    if (generatedKeys.next()) {
+                        pecas.setId(generatedKeys.getLong(1)); // Atribui o ID gerado
+                    }
+                }
+                return "Peca adicionada com sucesso!";
+            } else {
+                return "Nao foi possível adicionar a peca";
+            }
+        } catch (SQLException e) {
+            return String.format("Erro: %s", e.getMessage());
+        }
+    }
 
     private String editar(Pecas pecas) {
-    String sql = "UPDATE pecas SET nome=?, descricao=?, quantidade=?, preco=?, id_fornecedor=? WHERE id=?";
+        String sql = "UPDATE pecas SET nome=?, descricao=?, quantidade=?, preco=?, id_fornecedor=? WHERE id=?";
         try {
             PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
             preencherValoresDePreparedStatement(preparedStatement, pecas);
@@ -74,17 +73,17 @@ public class PecasDao {
     }
 
     private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, Pecas pecas) throws SQLException {
-         preparedStatement.setString(1, pecas.getNome());
-    preparedStatement.setString(2, pecas.getDescricao());
-    preparedStatement.setInt(3, pecas.getQuantidade());
-    preparedStatement.setBigDecimal(4, pecas.getPreco());
+        preparedStatement.setString(1, pecas.getNome());
+        preparedStatement.setString(2, pecas.getDescricao());
+        preparedStatement.setInt(3, pecas.getQuantidade());
+        preparedStatement.setBigDecimal(4, pecas.getPreco());
 
-    // Aqui você deve adicionar o ID do fornecedor se ele estiver presente
-    if (pecas.getFornecedor() != null) {
-        preparedStatement.setLong(5, pecas.getFornecedor().getId());
-    } else {
-        preparedStatement.setNull(5, java.sql.Types.BIGINT); // Se o fornecedor não existir, define como NULL
-    }
+        // Aqui você deve adicionar o ID do fornecedor se ele estiver presente
+        if (pecas.getFornecedor() != null) {
+            preparedStatement.setLong(5, pecas.getFornecedor().getId());
+        } else {
+            preparedStatement.setNull(5, java.sql.Types.BIGINT); // Se o fornecedor não existir, define como NULL
+        }
     }
 
     public List<Pecas> buscarPecas() {
@@ -191,17 +190,17 @@ public class PecasDao {
             return String.format("Erro: %s", e.getMessage());
         }
     }
+
     public void atualizarEstoque(Long idPeca, int quantidade) throws SQLException {
-    String sql = "UPDATE pecas SET quantidade = quantidade - ? WHERE id = ?";
-    try (Connection conn = conexao.obterConexao(); 
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, quantidade);
-        stmt.setLong(2, idPeca); 
-        int rowsUpdated = stmt.executeUpdate();
-        if (rowsUpdated == 0) {
-            throw new SQLException("Erro: Nenhuma peça encontrada com o ID " + idPeca);
+        String sql = "UPDATE pecas SET quantidade = quantidade - ? WHERE id = ?";
+        try (Connection conn = conexao.obterConexao(); PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, quantidade);
+            stmt.setLong(2, idPeca);
+            int rowsUpdated = stmt.executeUpdate();
+            if (rowsUpdated == 0) {
+                throw new SQLException("Erro: Nenhuma peça encontrada com o ID " + idPeca);
+            }
         }
     }
-}
 
 }

@@ -10,10 +10,8 @@ import com.autoparts.controle.estoque.modelo.dao.VendaDao;
 import com.autoparts.controle.estoque.modelo.dominio.Cliente;
 import com.autoparts.controle.estoque.modelo.dominio.ItemVenda;
 import com.autoparts.controle.estoque.modelo.dominio.Pecas;
-import com.autoparts.controle.estoque.modelo.dominio.Usuario;  // Novo: importar a classe de domínio do usuário
+import com.autoparts.controle.estoque.modelo.dominio.Usuario;  
 import com.autoparts.controle.estoque.modelo.dominio.Venda;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -64,8 +62,8 @@ public class GerenciarVendasForm extends JPanel {
     // Label e JComboBox para Usuários
     JLabel labelUsuario = new JLabel("Usuário:");
     comboUsuarios = new JComboBox<>();
-    labelUsuario.setBounds(30, 110, 60, 25); // Ajuste a posição se necessário
-    comboUsuarios.setBounds(120, 110, 150, 25); // Ajuste a posição se necessário
+    labelUsuario.setBounds(30, 60, 60, 25); // Alterado para uma posição acima (linha diferente)
+comboUsuarios.setBounds(120, 60, 150, 25); // Ajuste a posição se necessário
     carregarUsuarios(comboUsuarios);  // Carregar usuários no comboBox
     add(labelUsuario);
     add(comboUsuarios);
@@ -157,6 +155,8 @@ public class GerenciarVendasForm extends JPanel {
     botaoAdicionarVenda.addActionListener(e -> {
         adicionarVenda();
     });
+    
+    /*
    botaoEditar.addActionListener(e -> editarVenda());
 
     botaoSalvarAlteracoes.addActionListener(e -> {
@@ -167,7 +167,7 @@ public class GerenciarVendasForm extends JPanel {
             adicionarVenda(); // Se estiver vazio, adiciona uma nova venda
         }
     });
-
+*/
     botaoListar.addActionListener(e -> listarVendas());
 
 }
@@ -379,17 +379,22 @@ private void listarVendas() {
     }
 }
 
+/*
 private void editarVenda() {
-    String input = JOptionPane.showInputDialog(this, "Digite o ID da venda a ser editada:");
+    // Solicita ao usuário o ID ou nome do cliente da venda
+    String input = JOptionPane.showInputDialog(this, "Digite o ID ou nome do cliente da venda a ser editada:");
     Venda venda = null;
 
     if (input != null && !input.isEmpty()) {
         try {
-            long id = Long.parseLong(input); // Tenta buscar por ID
-            venda = vendaDao.buscarVendaPeloId(id); // Busca a venda pelo ID
+            // Tenta buscar por ID
+            long id = Long.parseLong(input);
+            System.out.println("Buscando venda pelo ID: " + id);
+            venda = vendaDao.buscarVendaPeloId(id); // Função para buscar por ID
         } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(this, "ID deve ser um número válido.");
-            return;
+            // Se não for um número, busca por nome do cliente
+            System.out.println("Buscando venda pelo nome do cliente: " + input);
+            venda = vendaDao.(input); // Função para buscar por nome do cliente
         }
 
         if (venda != null) {
@@ -397,7 +402,7 @@ private void editarVenda() {
             campoDesconto.setText(venda.getDesconto() != null ? venda.getDesconto().toString() : "");
             campoTroco.setText(venda.getTroco() != null ? venda.getTroco().toString() : "");
             campoObservacao.setText(venda.getObservacao() != null ? venda.getObservacao() : "");
-            
+
             // Selecionar cliente e usuário correspondentes
             comboClientes.setSelectedItem(venda.getCliente());
             comboUsuarios.setSelectedItem(venda.getUsuario());
@@ -407,6 +412,7 @@ private void editarVenda() {
             for (ItemVenda item : venda.getItensVenda()) {
                 comboPecas.addItem(item.getPecas()); // Adiciona todas as peças da venda ao combo
             }
+
             // Seleciona a primeira peça como padrão
             if (!venda.getItensVenda().isEmpty()) {
                 comboPecas.setSelectedIndex(0);
@@ -426,9 +432,10 @@ private void editarVenda() {
             JOptionPane.showMessageDialog(this, "Venda não encontrada.");
         }
     } else {
-        JOptionPane.showMessageDialog(this, "ID não pode ser vazio.");
+        JOptionPane.showMessageDialog(this, "ID ou nome não pode ser vazio.");
     }
 }
+
 private void salvarAlteracoesVenda() throws SQLException {
     if (editandoVenda && vendaEditando != null) {
         String descontoStr = campoDesconto.getText().trim();
