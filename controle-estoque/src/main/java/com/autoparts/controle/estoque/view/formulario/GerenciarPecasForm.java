@@ -92,7 +92,7 @@ public class GerenciarPecasForm extends JPanel {
         add(botaoEditar);
         add(botaoListar);
 
-        /// Lógica para adicionar peça
+        ///adicionar peça
 botaoAdicionar.addActionListener(e -> {
     String nome = campoNome.getText().trim();
     String descricao = campoDescricao.getText().trim();
@@ -265,7 +265,7 @@ botaoRemover.addActionListener(e -> {
             campoPreco.setText(pecas.getPreco().toString());
             comboFornecedores.setSelectedItem(pecas.getFornecedor());
 
-            // Guardar referência à peça que está sendo editada
+            // Guardar referência da peça que está sendo editada
             pecasEditando = pecas;
 
             editandoPecas = true;
@@ -320,7 +320,7 @@ botaoSalvarAlteracoes.addActionListener(e -> {
         botaoSalvarAlteracoes.setEnabled(false); // Desabilita o botão de salvar após salvar
         botaoAdicionar.setEnabled(true); // Reabilita o botão de adicionar
 
-        // Limpar campos após salvar
+        // Limpar  após salvar
         campoNome.setText("");
         campoDescricao.setText("");
         campoQuantidade.setText("");

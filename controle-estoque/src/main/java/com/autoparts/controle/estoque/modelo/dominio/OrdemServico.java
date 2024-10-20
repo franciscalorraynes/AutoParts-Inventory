@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 /**
  *
- * @author Lorrayne
+ * @author Samira
  */
 public class OrdemServico {
     private Long id;
@@ -22,9 +22,11 @@ public class OrdemServico {
     Cliente cliente;
 
     public OrdemServico() {
+
     }
 
-    public OrdemServico(Long id, LocalDateTime dataOs, String equipamento, String defeito, String servicoPrestado, String funcionarioResponsavel, BigDecimal valor, Cliente cliente) {
+    public OrdemServico(Long id, LocalDateTime dataOs, String equipamento, String defeito, String servicoPrestado,
+            String funcionarioResponsavel, BigDecimal valor, Cliente cliente) {
         this.id = id;
         this.dataOs = dataOs;
         this.equipamento = equipamento;
@@ -98,6 +100,7 @@ public class OrdemServico {
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
     }
+
     
-    
+
 }
