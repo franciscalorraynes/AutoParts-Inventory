@@ -7,30 +7,22 @@
 ###### Desenvolvido por: [Francisca Lorrayne](https://github.com/franciscalorraynes) e [Samira França](https://github.com/samirafq)
 
 <div>
-  <img src="https://github.com/franciscalorraynes/AutoParts-Inventory/blob/main/controle-estoque/src/main/java/com/autoparts/controle/estoque/view/modelo/image/Captura%20de%20tela%202024-10-09%20090206.png?raw=true" width="700" height="250">
+  <img src="https://github.com/franciscalorraynes/AutoParts-Inventory/blob/main/Arquivos%20sobressalentes/fotos%20de%20perfil/Gerenciar_vendas.png?raw=true">
 </div>
----
 
-**imagem provisória** 
+
 
 AutoParts é um sistema de gerenciamento de estoque de peças automotivas, desenvolvido em Java utilizando conceitos de Programação Orientada a Objetos (POO) e Swing para a interface gráfica, seguindo a arquitetura MVC (Model-View-Controller).
 
 ## Funcionalidades Principais
 
 - **Gerenciamento de peças**: Permite o cadastro, consulta, atualização e remoção de peças no sistema.
-  - ![Gerenciamento de Peças](C:\Users\Lorrayne\Documents\BACKUP-27-09-2024\fllsa\02\OneDrive\Documentos\NetBeansProjects\AutoParts-Inventory\Arquivos sobressalentes\fotos de perfil\pecas.png)
 - **Gerenciamento de vendas**: Controla a venda de peças, registrando as transações realizadas.
-  - ![Gerenciamento de Vendas](C:\Users\Lorrayne\Documents\BACKUP-27-09-2024\fllsa\02\OneDrive\Documentos\NetBeansProjects\AutoParts-Inventory\Arquivos sobressalentes\fotos de perfil\Gerenciar_vendas.png)
 - **Ordem de serviço**: Gerencia ordens de serviço associadas às vendas e manutenções.
-  - ![Ordem de Serviço](C:\Users\Lorrayne\Documents\BACKUP-27-09-2024\fllsa\02\OneDrive\Documentos\NetBeansProjects\AutoParts-Inventory\Arquivos sobressalentes\fotos de perfil\OS)
 - **Gerenciamento de clientes**: Permite o cadastro e consulta de informações dos clientes.
-  - ![Gerenciamento de Clientes](C:\Users\Lorrayne\Documents\BACKUP-27-09-2024\fllsa\02\OneDrive\Documentos\NetBeansProjects\AutoParts-Inventory\Arquivos sobressalentes\fotos de perfil\clientes.png)
 - **Cadastro de usuários**: Facilita o registro e controle de usuários do sistema.
-  - ![Cadastro de Usuários](C:\Users\Lorrayne\Documents\BACKUP-27-09-2024\fllsa\02\OneDrive\Documentos\NetBeansProjects\AutoParts-Inventory\Arquivos sobressalentes\fotos de perfil\usuarios.png)
 - **Listar estoque**: Mostra as peças disponíveis no estoque.
-  - ![Listar Estoque](C:\Users\Lorrayne\Documents\BACKUP-27-09-2024\fllsa\02\OneDrive\Documentos\NetBeansProjects\AutoParts-Inventory\Arquivos sobressalentes\fotos de perfil\estoque.png)
 - **Relatórios de ordens de serviço e vendas**: Gera relatórios detalhados sobre as atividades realizadas.
-  - ![Relatórios](C:\Users\Lorrayne\Documents\BACKUP-27-09-2024\fllsa\02\OneDrive\Documentos\NetBeansProjects\AutoParts-Inventory\Arquivos sobressalentes\fotos de perfil\relatorios.png)
 
 ## Requisitos de Sistema
 
