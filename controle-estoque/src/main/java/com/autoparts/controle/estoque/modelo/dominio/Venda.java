@@ -6,6 +6,7 @@ package com.autoparts.controle.estoque.modelo.dominio;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -22,13 +23,16 @@ public class Venda{
     private String observacao;
     private LocalDateTime dataVenda;
     
-    //private List<ItemVenda> itensVenda;
+    private List<ItemVenda> itensVenda;
 
-    
+    /*
     public Venda() {
     }
-
-    public Venda(Long id, Cliente cliente, Usuario usuario, BigDecimal totalDaVenda, BigDecimal desconto, BigDecimal troco, String observacao, LocalDateTime dataVenda) {
+*/
+    public Venda() {
+        this.itensVenda = new ArrayList<>();  // Inicializa a lista de itens de venda
+    }
+    public Venda(Long id, Cliente cliente, Usuario usuario, BigDecimal totalDaVenda, BigDecimal desconto, BigDecimal troco, String observacao, LocalDateTime dataVenda, List<ItemVenda> itensVenda) {
         this.id = id;
         this.cliente = cliente;
         this.usuario = usuario;
@@ -37,8 +41,10 @@ public class Venda{
         this.troco = troco;
         this.observacao = observacao;
         this.dataVenda = dataVenda;
-        //this.itensVenda = itensVenda;
+        this.itensVenda = itensVenda;
     }
+
+    
 
     
 
@@ -105,7 +111,7 @@ public class Venda{
     public void setDataVenda(LocalDateTime dataVenda) {
         this.dataVenda = dataVenda;
     }
-    /*
+    
     // Novo getter para a lista de itens de venda
     public List<ItemVenda> getItensVenda() {
         return itensVenda;
@@ -115,5 +121,10 @@ public class Venda{
     public void setItensVenda(List<ItemVenda> itensVenda) {
         this.itensVenda = itensVenda;
     }
-*/
+// Método para adicionar um item de venda à lista de itens
+    public void addItemVenda(ItemVenda itemVenda) {
+        if (itemVenda != null) {
+            this.itensVenda.add(itemVenda);
+        }
+    }
 }

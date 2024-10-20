@@ -23,8 +23,8 @@ public class ItemVendaDao {
         return (itemVenda.getId() == null || itemVenda.getId() == 0L) ? adicionar(itemVenda) : editar(itemVenda);
     }
 
-    private String adicionar(ItemVenda itemVenda) {
-    String sql = "insert into item_venda(id_venda, id_peca, quantidade, preco_unitario) values (?, ?, ?, ?)";
+   private String adicionar(ItemVenda itemVenda) {
+    String sql = "INSERT INTO item_venda(id_venda, id_peca, quantidade, preco_unitario) VALUES (?, ?, ?, ?)";
     
     try (PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql)) {
         preencherValoresDePreparedStatement(preparedStatement, itemVenda);
@@ -49,6 +49,7 @@ public class ItemVendaDao {
 }
 
 
+
     private String editar(ItemVenda itemVenda) {
         String sql = "update item_venda set id_venda=?, id_peca=?, quantidade=?, preco_unitario=? where id = ?";
 
@@ -65,11 +66,12 @@ public class ItemVendaDao {
     }
 
     private void preencherValoresDePreparedStatement(PreparedStatement preparedStatement, ItemVenda itemVenda) throws SQLException {
-        preparedStatement.setLong(1, itemVenda.getVenda().getId()); // ID da venda
-        preparedStatement.setLong(2, itemVenda.getPecas().getId()); // ID da peça
-        preparedStatement.setInt(3, itemVenda.getQuantidade());
-        preparedStatement.setBigDecimal(4, itemVenda.getPrecoUnitario());
-    }
+    preparedStatement.setLong(1, itemVenda.getVenda().getId()); // ID da venda
+    preparedStatement.setLong(2, itemVenda.getPecas().getId()); // ID da peça
+    preparedStatement.setInt(3, itemVenda.getQuantidade());
+    preparedStatement.setBigDecimal(4, itemVenda.getPrecoUnitario());
+}
+
 
     public List<ItemVenda> buscarItemVendas() {
         String sql = "select * from item_venda";
@@ -108,19 +110,22 @@ public class ItemVendaDao {
 
 
     private ItemVenda getItemVenda(ResultSet result) throws SQLException {
+    ItemVenda itemVenda = new ItemVenda();
+    itemVenda.setId(result.getLong("id"));
 
-        ItemVenda itemVenda = new ItemVenda();
-        itemVenda.setId(result.getLong("id"));
-        Pecas pecas = new PecasDao().buscarPecasPeloId(result.getLong("id_peca"));
-        Venda venda = new VendaDao().buscarVendaPeloId(result.getLong("id_venda"));
-        itemVenda.setPecas(pecas);
-        itemVenda.setVenda(venda);
+    // Aqui, você busca a peça e a venda relacionadas ao item de venda
+    Pecas pecas = new PecasDao().buscarPecasPeloId(result.getLong("id_peca"));
+    Venda venda = new VendaDao().buscarVendaPeloId(result.getLong("id_venda"));
+    
+    itemVenda.setPecas(pecas);
+    itemVenda.setVenda(venda);
 
-        itemVenda.setQuantidade(result.getInt("quantidade"));
-        itemVenda.setPrecoUnitario(result.getBigDecimal("preco_unitario"));
+    itemVenda.setQuantidade(result.getInt("quantidade"));
+    itemVenda.setPrecoUnitario(result.getBigDecimal("preco_unitario"));
 
-        return itemVenda;
-    }
+    return itemVenda;
+}
+
 
     public ItemVenda buscarItemVendaPeloId(Long id) {
         String sql = "select *from item_venda where id = ?";
@@ -141,21 +146,21 @@ public class ItemVendaDao {
     }
 
     public List<ItemVenda> buscarItensPorVendaId(Long idVenda) {
-        String sql = "select * from item_venda where id_venda = ?";
-        List<ItemVenda> itensVenda = new ArrayList<>();
+    String sql = "select * from item_venda where id_venda = ?"; // Altere id para id_venda
+    List<ItemVenda> itensVenda = new ArrayList<>();
 
-        try {
-            PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
-            preparedStatement.setLong(1, idVenda);
-            ResultSet result = preparedStatement.executeQuery();
+    try {
+        PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
+        preparedStatement.setLong(1, idVenda);
+        ResultSet result = preparedStatement.executeQuery();
 
-            while (result.next()) {
-                itensVenda.add(getItemVenda(result)); // Reutiliza o método que já transforma o ResultSet em ItemVenda
-            }
-        } catch (SQLException e) {
-            System.out.println(String.format("Erro: %s", e.getMessage()));
+        while (result.next()) {
+            itensVenda.add(getItemVenda(result)); // Reutiliza o método que já transforma o ResultSet em ItemVenda
         }
-
-        return itensVenda;
+    } catch (SQLException e) {
+        System.out.println(String.format("Erro: %s", e.getMessage()));
     }
+
+    return itensVenda;
+}
 }

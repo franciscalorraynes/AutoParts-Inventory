@@ -372,7 +372,7 @@ public class Menu {
     }
 }
 */
-
+/*
 
 package com.autoparts.controle.estoque;
 
@@ -677,3 +677,4 @@ public class Menu {
     }
 }
 
+*/

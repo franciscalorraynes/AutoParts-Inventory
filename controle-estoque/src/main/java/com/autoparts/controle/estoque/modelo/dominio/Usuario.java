@@ -140,5 +140,10 @@ public class Usuario {
      public boolean isAdministrador() {
         return this.perfil == Perfil.ADM;
     }
+
+    @Override
+    public String toString() {
+        return nome;
+    }
  
 }

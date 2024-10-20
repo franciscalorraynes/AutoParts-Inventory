@@ -55,5 +55,8 @@ public class Cliente {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }   
-    
+    @Override
+    public String toString() {
+        return nome;  // Isso fará com que o JComboBox mostre apenas o nome do cliente
+    }
 }

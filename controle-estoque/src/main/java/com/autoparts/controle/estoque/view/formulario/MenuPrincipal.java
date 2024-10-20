@@ -111,7 +111,7 @@ public class MenuPrincipal extends JFrame {
     if (componenteExistente == null) {
         switch (nomeTela) {
             case "GERENCIAR_VENDAS":
-                GerenciarVendasForm vendasForm = new GerenciarVendasForm();
+                GerenciarVendasForm vendasForm = new GerenciarVendasForm(usuarioAutenticado);
                 vendasForm.setName("GERENCIAR_VENDAS");
                 panelPrincipal.add(vendasForm, "GERENCIAR_VENDAS");
                 break;

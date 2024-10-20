@@ -152,4 +152,8 @@ public class UsuarioDao {
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         return passwordEncoder.matches(senhaInformada, senhaSalva);
     }
+
+    
+    
+    
 }

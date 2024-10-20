@@ -1,3 +1,4 @@
+
 package com.autoparts.controle.estoque.modelo.dao;
 
 import com.autoparts.controle.estoque.modelo.conexao.Conexao;
@@ -47,7 +48,7 @@ public class MovimentacaoEstoqueDao {
 
 
     private String editar(MovimentacaoEstoque movimentacao) {
-    String sql = "update movimentacao_estoque set id_peca=?, tipo_movimentacao=?, quantidade=?, data_movimentacao=?, id_venda=?, id_fornecedor=? where id=?";
+    String sql = "update movimentacaoEstoque set id_peca=?, tipo_movimentacao=?, quantidade=?, data_movimentacao=?, id_venda=?, id_fornecedor=? where id=?";
     try {
         PreparedStatement preparedStatement = conexao.obterConexao().prepareStatement(sql);
         preparedStatement.setLong(1, movimentacao.getPecas().getId());
@@ -67,7 +68,7 @@ public class MovimentacaoEstoqueDao {
 
 
     public List<MovimentacaoEstoque> buscarTodas() {
-        String sql = "SELECT * FROM movimentacao_estoque";
+        String sql = "SELECT * FROM movimentacaoEstoque";
         List<MovimentacaoEstoque> movimentacoes = new ArrayList<>();
         try {
             ResultSet result = conexao.obterConexao().prepareStatement(sql).executeQuery();
@@ -161,32 +162,26 @@ public class MovimentacaoEstoqueDao {
     }
     
     
-    public String subtrairPecasDoEstoque(Long idPeca, int quantidade, Long idVenda) {
-        
-        PecasDao pecasDao = new PecasDao();
-        Pecas peca = pecasDao.buscarPecasPeloId(idPeca);
+    public String subtrairPecasDoEstoque(Long idPeca, int quantidade, Long idVenda) throws SQLException {
+    PecasDao pecasDao = new PecasDao();
+    Pecas peca = pecasDao.buscarPecasPeloId(idPeca);
 
-        if (peca == null) {
-            return "Erro: Peca não encontrada no banco de dados.";
-        }
-
-        // Verifica se há estoque suficiente
-        if (peca.getQuantidade().intValue() < quantidade) {
-            return "Erro: Quantidade insuficiente em estoque.";
-        }
-
-        String sql = "UPDATE pecas SET quantidade = quantidade - ? WHERE id = ?";
-        try (Connection conn = conexao.obterConexao(); PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-            preparedStatement.setInt(1, quantidade);
-            preparedStatement.setLong(2, idPeca);
-            int resultado = preparedStatement.executeUpdate();
-
-            // Registrar movimentação
-            return registrarMovimentacaoEstoque(idPeca, quantidade, "SAIDA", idVenda, null);
-        } catch (SQLException e) {
-            return String.format("Erro: %s", e.getMessage());
-        }
+    if (peca == null) {
+        return "Erro: Peca não encontrada no banco de dados.";
     }
+
+    // Verifica se há estoque suficiente
+    if (peca.getQuantidade().longValue() < quantidade) {
+        return "Erro: Quantidade insuficiente em estoque.";
+    }
+
+    // Atualiza o estoque utilizando o método do PecasDao
+    pecasDao.atualizarEstoque(idPeca, quantidade); // Corrigido aqui
+
+    // Registrar movimentação
+    return registrarMovimentacaoEstoque(idPeca, quantidade, "SAIDA", idVenda, null);
+}
+
 
     public int verificarQuantidadeEstoque(Long idPeca) {
         PecasDao pecasDao = new PecasDao();
@@ -218,4 +213,50 @@ public class MovimentacaoEstoqueDao {
             return String.format("Erro: %s", e.getMessage());
         }
     }
+    public int getQuantidadeEmEstoque(Long pecaId) throws SQLException {
+    String sql = "SELECT quantidade FROM pecas WHERE id = ?";
+    try (Connection conn = conexao.obterConexao();
+        PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setLong(1, pecaId);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getInt("quantidade");
+        } else {
+            return 0; // 
+        }
+    }
+}
+
+    public void registrarSaidaEstoque(Long idPeca, int quantidade) throws SQLException {
+    String sqlMovimentacao = "INSERT INTO movimentacaoEstoque (id_peca, quantidade, tipo_movimentacao, data_movimentacao) VALUES (?, ?, 'SAIDA', NOW())";
+    String sqlAtualizarPecas = "UPDATE pecas SET quantidade = quantidade - ? WHERE id = ?";
+    
+    try (Connection conn = conexao.obterConexao()) {
+        // Inicia a transação
+        conn.setAutoCommit(false);
+        try (PreparedStatement stmtMovimentacao = conn.prepareStatement(sqlMovimentacao);
+             PreparedStatement stmtPecas = conn.prepareStatement(sqlAtualizarPecas)) {
+            
+            // Registrar movimentação
+            stmtMovimentacao.setLong(1, idPeca);
+            stmtMovimentacao.setInt(2, quantidade);
+            stmtMovimentacao.executeUpdate();
+
+            // Atualizar tabela pecas
+            stmtPecas.setInt(1, quantidade);
+            stmtPecas.setLong(2, idPeca);
+            stmtPecas.executeUpdate();
+
+            // Commit da transação
+            conn.commit();
+        } catch (SQLException e) {
+            // Se ocorrer um erro, rollback
+            conn.rollback();
+            throw new SQLException("Erro ao registrar saída de estoque: " + e.getMessage());
+        } finally {
+            // Restaura o estado de auto-commit
+            conn.setAutoCommit(true);
+        }
+    }
+}   
 }
