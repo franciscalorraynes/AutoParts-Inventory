@@ -6,11 +6,7 @@
 
 ###### Desenvolvido por: [Francisca Lorrayne](https://github.com/franciscalorraynes) e [Samira França](https://github.com/samirafq)
 
-<div>
-  <img src="https://github.com/franciscalorraynes/AutoParts-Inventory/blob/main/Arquivos%20sobressalentes/fotos%20de%20perfil/Gerenciar_vendas.png?raw=true">
-</div>
-
-
+![Gerenciar Vendas](https://github.com/franciscalorraynes/AutoParts-Inventory/blob/main/Arquivos%20sobressalentes/fotos%20de%20perfil/Gerenciar_vendas.png?raw=true)
 
 AutoParts é um sistema de gerenciamento de estoque de peças automotivas, desenvolvido em Java utilizando conceitos de Programação Orientada a Objetos (POO) e Swing para a interface gráfica, seguindo a arquitetura MVC (Model-View-Controller).
 
@@ -100,3 +96,7 @@ Este projeto está licenciado sob a [Licença MIT](https://github.com/franciscal
 ## Agradecimentos
 
 Agradecemos aos desenvolvedores e à comunidade de código aberto que contribuíram com ferramentas como Java, MySQL e outras bibliotecas que tornaram possível o desenvolvimento deste sistema de controle de estoque de peças automotivas.
+
+## Documentação
+
+Para mais informações detalhadas sobre o sistema, consulte a [documentação](https://docs.google.com/document/d/1aEVTSQmXbBMqrtQHjljGgce_VRZuqGmwRcEBdd9zaQc/edit?usp=sharing).
