@@ -156,18 +156,6 @@ comboUsuarios.setBounds(120, 60, 150, 25); // Ajuste a posição se necessário
         adicionarVenda();
     });
     
-    /*
-   botaoEditar.addActionListener(e -> editarVenda());
-
-    botaoSalvarAlteracoes.addActionListener(e -> {
-        // Lógica para salvar alterações
-        if (!campoIdVenda.getText().isEmpty()) {
-            editarVenda(); // Se o campo ID não estiver vazio, edita
-        } else {
-            adicionarVenda(); // Se estiver vazio, adiciona uma nova venda
-        }
-    });
-*/
     botaoListar.addActionListener(e -> listarVendas());
 
 }
